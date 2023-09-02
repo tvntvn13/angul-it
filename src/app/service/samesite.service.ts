@@ -15,7 +15,7 @@ export class SamesiteService implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const modifiedReq = req.clone({
       withCredentials: true,
-      headers: req.headers.set('SameSite', 'None'),
+      headers: req.headers.set('SameSite', 'Strict'),
     });
     return next.handle(modifiedReq);
   }

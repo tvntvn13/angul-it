@@ -7,6 +7,7 @@ import { CaptchaComponent } from './captcha/captcha.component';
 import { ResultComponent } from './result/result.component';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { FormsModule } from '@angular/forms';
+import { NgHcaptchaModule, NgHcaptchaService } from 'ng-hcaptcha';
 import { SamesiteService } from './service/samesite.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
@@ -27,6 +28,9 @@ import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
     RecaptchaV3Module,
     FormsModule,
     HttpClientModule,
+    NgHcaptchaModule.forRoot({
+      siteKey: '0b6202c2-5a70-4f4d-ac55-c401130fcaeb',
+    }),
   ],
   providers: [{
     provide: RECAPTCHA_V3_SITE_KEY,
@@ -36,6 +40,9 @@ import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
     provide: HTTP_INTERCEPTORS,
     useClass: SamesiteService,
     multi: true,
+  }, {
+    provide: NgHcaptchaService,
+    useValue: '0b6202c2-5a70-4f4d-ac55-c401130fcaeb',
   }],
   bootstrap: [AppComponent],
 })

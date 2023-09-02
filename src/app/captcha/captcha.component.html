@@ -1,1 +1,5 @@
-<p>captcha works!</p>
+<div id="captcha-container">
+  <ng-hcaptcha (verify)="onVerify($event)" (expired)="onExpired($event)" (error)="onError($event)"
+    siteKey='0b6202c2-5a70-4f4d-ac55-c401130fcaeb'>
+  </ng-hcaptcha>
+</div>
