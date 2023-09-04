@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-captcha',
   templateUrl: './captcha.component.html',
-  // styleUrls: ['./captcha.component.css'],
   styles: [
     `#captcha-container {
 display: flex;

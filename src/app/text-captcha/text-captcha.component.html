@@ -1,0 +1,13 @@
+<div id="container">
+  <img [src]="captcha.imageData" id="captcha">
+  <form id="form" (ngSubmit)="onsubmit()">
+    <input type="text" id="input" [(ngModel)]="userValue" name="captchaInput" required>
+    <div class="buttons">
+      <button id="submit" type="submit" *ngIf="!completed && !failed">submit</button>
+      <button class="next" (click)="goToNext()" *ngIf="completed && !failed">next</button>
+      <button class="next" (click)="refreshCaptcha()" *ngIf="failed && !completed">retry</button>
+      <button (click)="refreshCaptcha()" *ngIf="!completed && !failed">retry</button>
+    </div>
+  </form>
+  <h2 id="congrats" [style.opacity]="congratsOpacity">{{ congratsMessage }}</h2>
+</div>

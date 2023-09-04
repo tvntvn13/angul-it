@@ -11,6 +11,9 @@ import { NgHcaptchaModule, NgHcaptchaService } from 'ng-hcaptcha';
 import { SamesiteService } from './service/samesite.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
+import { MathCaptchaComponent } from './math-captcha/math-captcha.component';
+import { TextCaptchaComponent } from './text-captcha/text-captcha.component';
+import { ImageCaptchaComponent } from './image-captcha/image-captcha.component';
 
 // import { environment } from '../environment/environment.ts'
 
@@ -20,6 +23,9 @@ import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
     HomeComponent,
     CaptchaComponent,
     ResultComponent,
+    MathCaptchaComponent,
+    TextCaptchaComponent,
+    ImageCaptchaComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,19 @@
+<div class="container">
+  <form id="form">
+    <div class="grid" id="captcha" #gridElement [style.backgroudImage]="bgUrl">
+      <div *ngFor="let row of [0,1,2,3,4]" class="grid-item">
+        <div *ngFor="let col of [0,1,2,3,4]" class="grid-item">
+          <button #gridButton [id]="'button-'+(row*5+col)" (click)="cellClicked(row, col, gridButton)"
+            class="grid-btn"></button>
+        </div>
+      </div>
+    </div>
+    <div class="buttons">
+      <button id="submit" (click)="validateCaptcha()" type="submit" *ngIf="!completed && !failed">submit</button>
+      <button class="next" (click)="goToNext()" *ngIf="completed && !failed">next</button>
+      <button class="next" (click)="refreshCaptcha()" *ngIf="failed && !completed">retry</button>
+      <button (click)="refreshCaptcha()" *ngIf="!completed && !failed">retry</button>
+    </div>
+  </form>
+  <h2 id="congrats" [style.opacity]="congratsOpacity">{{ congratsMessage }}</h2>
+</div>
