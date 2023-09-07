@@ -1,31 +1,59 @@
-class captcha {
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class TextService {
+  private captcha: { code: string; imageData: string };
+  private options = {
+    stringLength: 6,
+    lineNoise: 25,
+    dotNoise: 150,
+  };
+  constructor() {
+    this.captcha = new Captcha(this.options).draw();
+  }
+
+  getCaptcha(): { code: string; imageData: string } {
+    return this.captcha;
+  }
+
+  generateCaptcha(): { code: string; imageData: string } {
+    this.captcha = new Captcha(this.options).draw();
+    return this.captcha;
+  }
+}
+
+class Captcha {
   options = {
     stringLength: 6,
     lineNoise: 25,
     dotNoise: 150,
   };
 
-  constructor(options) {
+  constructor(
+    options: { stringLength: number; lineNoise: number; dotNoise: number },
+  ) {
     this.options.stringLength = options.stringLength;
     this.options.lineNoise = options.lineNoise;
     this.options.dotNoise = options.dotNoise;
   }
 
   draw() {
-    const canvasCreator = new helper(this.options);
+    const canvasCreator = new Helper(this.options);
     canvasCreator.prepareCanvas();
     canvasCreator.lineNoiseGenerator();
     canvasCreator.dotNoiseGenerator();
     const dataImage = canvasCreator.convertCanvasToImage();
-    const code = canvasCreator.captcha;
+    const code = canvasCreator.captchaString;
     return { code: code, imageData: dataImage };
   }
 }
 
-class helper {
+class Helper {
   letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
   hexColor = '0123456789abcdef';
-  captcha = null;
+  captchaString = '';
   canvas = document.createElement('canvas');
   context = this.canvas.getContext('2d');
   options = {
@@ -34,7 +62,9 @@ class helper {
     dotNoise: 150,
   };
 
-  constructor(options) {
+  constructor(
+    options: { stringLength: number; lineNoise: number; dotNoise: number },
+  ) {
     this.options.stringLength = options.stringLength;
     this.options.lineNoise = options.lineNoise;
     this.options.dotNoise = options.dotNoise;
@@ -62,6 +92,7 @@ class helper {
   }
 
   lineNoiseGenerator(length = 25) {
+    if (this.context === null) return;
     for (let i = 0; i < length; i++) {
       this.context.beginPath();
       this.context.moveTo(
@@ -79,6 +110,7 @@ class helper {
   }
 
   dotNoiseGenerator(length = 150) {
+    if (this.context === null) return;
     for (let i = 0; i < length; i++) {
       this.context.fillStyle = this.colorGenerator();
       this.context.fillRect(
@@ -91,11 +123,12 @@ class helper {
   }
 
   convertCanvasToImage() {
-    let base64StringImage = this.canvas.toDataURL();
+    const base64StringImage = this.canvas.toDataURL();
     return base64StringImage;
   }
 
   prepareCanvas() {
+    if (this.context == null) return;
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     // this.canvas.style.border = "1px solid black";
     // this.canvas.style.width = "150px";
@@ -104,67 +137,7 @@ class helper {
     this.context.font = 'italic 75px Arial';
     this.context.fillStyle = this.colorGenerator();
 
-    this.captcha = this.generateStringForCaptcha();
-    this.context.fillText(this.captcha, 0, 100);
+    this.captchaString = this.generateStringForCaptcha();
+    this.context.fillText(this.captchaString, 0, 100);
   }
 }
-
-function generateCaptcha() {
-  const captcha = new captcha({
-    stringLength: 6,
-    lineNoise: 25,
-    dotNoise: 150,
-  });
-
-  return captcha.draw();
-}
-// let completed = false;
-// if (!completed) {
-//   updateCaptcha();
-// }
-
-// function updateCaptcha() {
-//   // let code = document.getElementById("p");
-//   let newCaptcha = generateCaptcha();
-//   let data = newCaptcha.draw();
-//   let captchaContainer = document.getElementById('captcha');
-//   captchaContainer.src = data.imageData;
-//   // code.textContent = data.code;
-//   return data;
-// }
-
-// let data = updateCaptcha();
-// let refresh = document.getElementById('refresh');
-// refresh.addEventListener('click', update);
-
-// function update() {
-//   window.location.reload();
-// }
-
-// let input = document.getElementById('input');
-
-// const inputForm = document.getElementById('form');
-// inputForm.addEventListener('submit', onsubmit);
-
-// const button = document.getElementById('submit');
-// button.addEventListener('click', onsubmit);
-
-// function onsubmit(event) {
-//   event.preventDefault();
-//   let userValue = input.value.toLowerCase();
-//   if (userValue == data.code.toLowerCase()) {
-//     console.log('you did it!');
-//     completed = true;
-//     congrats.style.opacity = 1;
-//   } else {
-//     completed = false;
-//     congrats.textContent = 'WRONG!';
-//     congrats.style.opacity = 1;
-//     console.log('wrong');
-
-//     updateCaptcha();
-//   }
-// }
-
-// let congrats = document.getElementById('congrats');
-// congrats.style.opacity = 0;

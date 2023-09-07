@@ -33,11 +33,12 @@ export class ImageCaptchaComponent implements AfterViewInit {
     this.answerArray = this.imageService.initEmptyArray(this.gridLength);
     this.bgUrl = `url(${this.currentImage})`;
   }
+
   ngAfterViewInit(): void {
     this.refreshCaptcha();
     if (this.gridElement) {
       const grid = this.gridElement.nativeElement;
-      grid.style.backgroundImage = `url(${this.captcha.imageUrl}`;
+      this.renderer.setStyle(grid, 'backgroundImage', this.bgUrl);
     }
     if (this.container) {
       this.renderer.addClass(this.container.nativeElement, 'animate-in');
@@ -59,6 +60,7 @@ export class ImageCaptchaComponent implements AfterViewInit {
   gridLength: number = 5;
   refreshIcon = faArrowRotateRight;
   bgUrl: string = '';
+  warningUrl = 'url("assets/images/warning.png")';
 
   cellClicked(
     rowIndex: number,
@@ -84,9 +86,6 @@ export class ImageCaptchaComponent implements AfterViewInit {
   }
 
   refreshCaptcha(): void {
-    const gridElement = document.getElementById('captcha');
-    const buttons = gridElement?.querySelectorAll('button');
-
     this.captcha = this.imageService.generateCaptcha(this.currentImage);
     this.answerArray = this.imageService.initEmptyArray(this.gridLength);
     this.correctAnswerArray = this.captcha.key;
@@ -94,12 +93,15 @@ export class ImageCaptchaComponent implements AfterViewInit {
     this.failed = false;
     this.congratsMessage = 'TEMP';
     this.congratsOpacity = 0;
-    if (gridElement != null) {
-      gridElement.style.backgroundImage = `url(${this.captcha.imageUrl})`;
-      buttons?.forEach((button) => {
-        button.classList.remove('selected');
-      });
+    if (this.gridElement) {
+      this.bgUrl = `url(${this.captcha.imageUrl})`;
+      this.renderer.setStyle(
+        this.gridElement.nativeElement,
+        'backgroundImage',
+        this.bgUrl,
+      );
     }
+    this.clearButtons();
   }
 
   goToNext(event: MouseEvent): void {
@@ -135,6 +137,16 @@ export class ImageCaptchaComponent implements AfterViewInit {
     });
   }
 
+  clearButtons(): void {
+    if (this.gridElement) {
+      const grid = document.getElementById('captcha');
+      const buttons = grid?.querySelectorAll('button');
+      buttons?.forEach((button) => {
+        button.classList.remove('selected');
+      });
+    }
+  }
+
   success() {
     this.completed = true;
     this.showSuccess();
@@ -143,7 +155,11 @@ export class ImageCaptchaComponent implements AfterViewInit {
   }
 
   fail() {
+    const grid = this.gridElement?.nativeElement;
     this.failed = true;
+    this.clearButtons();
+    this.renderer.setStyle(grid, 'backgroundImage', this.warningUrl);
+    this.renderer.setStyle(grid, 'z-index', 100);
     this.showFail();
     // this.congratsMessage = 'Wrong answer, try again';
     // this.congratsOpacity = 1;

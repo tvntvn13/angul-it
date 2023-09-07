@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CaptchaService } from './captcha.service';
+import { TextService } from './text.service';
 
-describe('CaptchaService', () => {
-  let service: CaptchaService;
+describe('TextService', () => {
+  let service: TextService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CaptchaService);
+    service = TestBed.inject(TextService);
   });
 
   it('should be created', () => {

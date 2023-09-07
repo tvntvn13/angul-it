@@ -8,6 +8,7 @@ import {
 import { Router } from '@angular/router';
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { MessageService } from 'primeng/api';
+import { MathService } from '../service/math.service';
 
 @Component({
   selector: 'app-math-captcha',
@@ -21,9 +22,9 @@ export class MathCaptchaComponent implements AfterViewInit {
     private router: Router,
     private messageService: MessageService,
     private renderer: Renderer2,
+    private mathService: MathService,
   ) {
-    this.helper = new Helper();
-    this.captcha = this.helper.generateCaptcha();
+    this.captcha = this.mathService.generateCaptcha();
   }
   ngAfterViewInit(): void {
     if (this.container) {
@@ -34,7 +35,6 @@ export class MathCaptchaComponent implements AfterViewInit {
     }, 500);
   }
 
-  helper: Helper;
   captcha: { question: string; answer: number };
   userValue = '';
   congratsOpacity = 0;
@@ -78,7 +78,7 @@ export class MathCaptchaComponent implements AfterViewInit {
 
   refreshCaptcha(event: MouseEvent): void {
     event.preventDefault();
-    this.captcha = this.helper.generateCaptcha();
+    this.captcha = this.mathService.generateCaptcha();
     this.userValue = '';
     this.congratsOpacity = 0;
     this.congratsMessage = 'TEMP';
@@ -98,40 +98,5 @@ export class MathCaptchaComponent implements AfterViewInit {
 
   move(): void {
     this.router.navigate(['level2']);
-  }
-}
-
-class Helper {
-  private numbers = new Map<number, string>([
-    [1, 'one'],
-    [2, 'two'],
-    [3, 'three'],
-    [4, 'four'],
-    [5, 'five'],
-    [6, 'six'],
-    [7, 'seven'],
-    [8, 'eight'],
-    [9, 'nine'],
-    [10, 'ten'],
-  ]);
-
-  private operators = ['minus', 'plus'];
-
-  generateCaptcha(): { question: string; answer: number } {
-    const num1 = Math.ceil(Math.random() * 10);
-    const num2 = Math.ceil(Math.random() * 10);
-    const num3 = Math.ceil(Math.random() * 10);
-
-    const ops1 = this.operators[Math.round(Math.random() * 1)];
-    const plus = ops1 === 'plus';
-    const ops2 = plus ? this.operators[0] : this.operators[1];
-
-    const answer = plus ? num1 + num2 - num3 : num1 - num2 + num3;
-    const question = `${this.numbers.get(num1)} ${ops1} ${
-      this.numbers.get(num2)
-    } ${ops2} ${this.numbers.get(num3)}`;
-
-    console.log('\n\n', answer);
-    return { question: question, answer: answer };
   }
 }
