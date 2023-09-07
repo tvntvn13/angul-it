@@ -73,7 +73,6 @@ export class ImageCaptchaComponent implements AfterViewInit {
     this.answerArray[colIndex][rowIndex]
       ? button?.classList.add('selected')
       : button?.classList.remove('selected');
-    // console.log('clicked: col: ', colIndex, ' row: ', rowIndex);
   }
 
   validateCaptcha(): void {
@@ -150,8 +149,6 @@ export class ImageCaptchaComponent implements AfterViewInit {
   success() {
     this.completed = true;
     this.showSuccess();
-    // this.congratsMessage = 'CONGRATS!';
-    // this.congratsOpacity = 1;
   }
 
   fail() {
@@ -159,9 +156,8 @@ export class ImageCaptchaComponent implements AfterViewInit {
     this.failed = true;
     this.clearButtons();
     this.renderer.setStyle(grid, 'backgroundImage', this.warningUrl);
+    //TODO this  ain't working, maybe fix later
     this.renderer.setStyle(grid, 'z-index', 100);
     this.showFail();
-    // this.congratsMessage = 'Wrong answer, try again';
-    // this.congratsOpacity = 1;
   }
 }

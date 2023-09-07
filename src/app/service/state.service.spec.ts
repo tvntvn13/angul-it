@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ResultGuardService } from './result-guard.service';
+import { StateService } from './state.service';
 
-describe('ResultGuardService', () => {
-  let service: ResultGuardService;
+describe('StateService', () => {
+  let service: StateService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ResultGuardService);
+    service = TestBed.inject(StateService);
   });
 
   it('should be created', () => {
