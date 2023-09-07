@@ -1,13 +1,22 @@
-import { Component } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-text-captcha',
   templateUrl: './text-captcha.component.html',
   styleUrls: ['./text-captcha.component.css'],
 })
-export class TextCaptchaComponent {
+export class TextCaptchaComponent implements AfterViewInit {
+  @ViewChild('container')
+    container: ElementRef | undefined;
   completed = false;
   userValue = '';
   captcha: { code: string; imageData: string };
@@ -16,12 +25,26 @@ export class TextCaptchaComponent {
   failed = false;
   refreshIcon = faArrowRotateRight;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private messageService: MessageService,
+    private renderer: Renderer2,
+  ) {
     this.captcha = new captcha({
       stringLength: 6,
       lineNoise: 25,
       dotNoise: 150,
     }).draw();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.container) {
+      this.renderer.addClass(this.container.nativeElement, 'animate-in');
+    }
+
+    setTimeout(() => {
+      this.renderer.removeClass(this.container?.nativeElement, 'animate-in');
+    }, 500);
   }
 
   onsubmit(event: SubmitEvent): void {
@@ -31,11 +54,13 @@ export class TextCaptchaComponent {
       this.congratsOpacity = 1;
       this.completed = true;
       this.userValue = '';
+      this.showSuccess();
     } else {
       this.congratsMessage = 'WRONG!';
       this.userValue = '';
       this.congratsOpacity = 1;
       this.failed = true;
+      this.showFail();
     }
   }
 
@@ -55,7 +80,34 @@ export class TextCaptchaComponent {
 
   goToNext(event: MouseEvent): void {
     event.preventDefault();
+    if (this.container) {
+      this.renderer.addClass(this.container.nativeElement, 'animate-out');
+      setTimeout(() => {
+        this.move();
+      }, 500);
+    }
+  }
+
+  move() {
     this.router.navigate(['level3']);
+  }
+
+  showSuccess(): void {
+    this.messageService.add({
+      key: 'tr',
+      severity: 'success',
+      summary: 'Congrats!',
+      detail: 'You cleared the captcha!',
+    });
+  }
+
+  showFail(): void {
+    this.messageService.add({
+      key: 'tr',
+      severity: 'error',
+      summary: 'Oops!',
+      detail: 'You failed, try again.',
+    });
   }
 }
 

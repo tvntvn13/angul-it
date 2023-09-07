@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -15,6 +16,8 @@ import { MathCaptchaComponent } from './math-captcha/math-captcha.component';
 import { TextCaptchaComponent } from './text-captcha/text-captcha.component';
 import { ImageCaptchaComponent } from './image-captcha/image-captcha.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 // import { environment } from '../environment/environment.ts'
 
@@ -30,12 +33,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     RecaptchaModule,
     // RecaptchaV3Module,
     FormsModule,
     HttpClientModule,
     FontAwesomeModule,
+    ToastModule,
     // NgHcaptchaModule.forRoot({
     //   siteKey: '0b6202c2-5a70-4f4d-ac55-c401130fcaeb',
     // }),
@@ -51,6 +56,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     // }, {
     //   provide: NgHcaptchaService,
     //   useValue: '0b6202c2-5a70-4f4d-ac55-c401130fcaeb',
+  }, {
+    provide: MessageService,
   }],
   bootstrap: [AppComponent],
 })

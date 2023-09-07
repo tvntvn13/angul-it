@@ -1,7 +1,14 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { ImageService } from '../service/image.service';
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-image-captcha',
@@ -11,15 +18,20 @@ import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 export class ImageCaptchaComponent implements AfterViewInit {
   @ViewChild('gridElement')
     gridElement: ElementRef | undefined;
+  @ViewChild('container')
+    container: ElementRef | undefined;
 
   constructor(
     private router: Router,
     private imageService: ImageService,
+    private messageService: MessageService,
+    private renderer: Renderer2,
   ) {
     this.captcha = this.imageService.getCaptcha();
     this.correctAnswerArray = this.captcha.key;
     this.currentImage = this.captcha.imageUrl;
     this.answerArray = this.imageService.initEmptyArray(this.gridLength);
+    this.bgUrl = `url(${this.currentImage})`;
   }
   ngAfterViewInit(): void {
     this.refreshCaptcha();
@@ -27,6 +39,13 @@ export class ImageCaptchaComponent implements AfterViewInit {
       const grid = this.gridElement.nativeElement;
       grid.style.backgroundImage = `url(${this.captcha.imageUrl}`;
     }
+    if (this.container) {
+      this.renderer.addClass(this.container.nativeElement, 'animate-in');
+    }
+
+    setTimeout(() => {
+      this.renderer.removeClass(this.container?.nativeElement, 'animate-in');
+    }, 500);
   }
 
   answerArray: boolean[][];
@@ -39,6 +58,7 @@ export class ImageCaptchaComponent implements AfterViewInit {
   currentImage: string;
   gridLength: number = 5;
   refreshIcon = faArrowRotateRight;
+  bgUrl: string = '';
 
   cellClicked(
     rowIndex: number,
@@ -82,20 +102,50 @@ export class ImageCaptchaComponent implements AfterViewInit {
     }
   }
 
-  goToNext(): void {
-    this.refreshCaptcha();
+  goToNext(event: MouseEvent): void {
+    event.preventDefault();
+    if (this.container) {
+      this.renderer.addClass(this.container.nativeElement, 'animate-out');
+      setTimeout(() => {
+        this.refreshCaptcha();
+        this.move();
+      }, 500);
+    }
+  }
+
+  move(): void {
     this.router.navigate(['results']);
+  }
+
+  showSuccess(): void {
+    this.messageService.add({
+      key: 'tr',
+      severity: 'success',
+      summary: 'Congrats!',
+      detail: 'You cleared the captcha!',
+    });
+  }
+
+  showFail(): void {
+    this.messageService.add({
+      key: 'tr',
+      severity: 'error',
+      summary: 'Oops!',
+      detail: 'You failed, try again.',
+    });
   }
 
   success() {
     this.completed = true;
-    this.congratsMessage = 'CONGRATS!';
-    this.congratsOpacity = 1;
+    this.showSuccess();
+    // this.congratsMessage = 'CONGRATS!';
+    // this.congratsOpacity = 1;
   }
 
   fail() {
     this.failed = true;
-    this.congratsMessage = 'Wrong answer, try again';
-    this.congratsOpacity = 1;
+    this.showFail();
+    // this.congratsMessage = 'Wrong answer, try again';
+    // this.congratsOpacity = 1;
   }
 }

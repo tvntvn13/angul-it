@@ -1,4 +1,6 @@
-<div class="container">
+<div class="container" #container>
+  <p-toast position="top-right" key="tr" [showTransformOptions]="'translateX(100%)'" [showTransitionOptions]="'300ms'"
+    [hideTransformOptions]="'translateY(-100%)'" [hideTransitionOptions]="'500ms'" [life]="1500"></p-toast>
   <form id="form">
     <div class="grid" id="captcha" #gridElement [style.backgroudImage]="bgUrl">
       <div *ngFor="let row of [0,1,2,3,4]" class="grid-item">
@@ -10,10 +12,15 @@
     </div>
     <div class="buttons">
       <button id="submit" (click)="validateCaptcha()" type="submit" *ngIf="!completed && !failed">submit</button>
-      <button class="next" (click)="goToNext()" *ngIf="completed && !failed">next</button>
-      <button class="next" (click)="refreshCaptcha()" *ngIf="failed && !completed">retry</button>
+      <button class="next" (click)="goToNext($event)" *ngIf="completed && !failed">results</button>
+      <button class="next" (click)="refreshCaptcha()" *ngIf="failed && !completed">
+        <fa-icon [icon]="refreshIcon"></fa-icon>
+      </button>
       <button (click)="refreshCaptcha()" *ngIf="!completed && !failed"><fa-icon [icon]="refreshIcon"></fa-icon></button>
     </div>
   </form>
-  <h2 id="congrats" [style.opacity]="congratsOpacity">{{ congratsMessage }}</h2>
+  <!-- <h2 id="congrats" [style.opacity]="congratsOpacity">{{ congratsMessage }}</h2> -->
+
+  <!-- THIS IS TEST - REMOVE LATER -->
+  <!-- <button type="button" (click)="goToNext($event)" style="height:3rem;width:6rem;background-color:pink">test</button> -->
 </div>

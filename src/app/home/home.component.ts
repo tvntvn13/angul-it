@@ -1,9 +1,15 @@
-import { Component } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  template: `<div class="container">
+  template: `<div class="container" #homeContainer>
   <pre>
     <p id="home-paragraph">
 Hey, and welcome.
@@ -41,11 +47,30 @@ start the tests.
   transform: scale(1.2,1.2);}`,
   ],
 })
-export class HomeComponent {
-  constructor(private router: Router) {}
+export class HomeComponent implements AfterViewInit {
+  @ViewChild('homeContainer')
+    container: ElementRef | undefined;
+  constructor(private router: Router, private renderer: Renderer2) {}
+
+  ngAfterViewInit(): void {
+    if (this.container) {
+      this.renderer.addClass(this.container.nativeElement, 'home-in');
+    }
+    setTimeout(() => {
+      this.renderer.removeClass(this.container?.nativeElement, 'home-in');
+    }, 500);
+  }
 
   goToCaptchas() {
-    console.log('here we go..');
+    if (this.container) {
+      this.renderer.addClass(this.container.nativeElement, 'animate-out');
+      setTimeout(() => {
+        this.move();
+      }, 500);
+    }
+  }
+
+  move(): void {
     this.router.navigate(['/level1']);
   }
 }

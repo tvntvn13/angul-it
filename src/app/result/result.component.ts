@@ -1,4 +1,10 @@
-import { Component } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,10 +23,31 @@ import { Router } from '@angular/router';
     }`,
   ],
 })
-export class ResultComponent {
-  constructor(private router: Router) {}
+export class ResultComponent implements AfterViewInit {
+  @ViewChild('container')
+    container: ElementRef | undefined;
+  constructor(private router: Router, private renderer: Renderer2) {}
 
-  goToHome() {
+  ngAfterViewInit(): void {
+    if (this.container) {
+      this.renderer.addClass(this.container.nativeElement, 'animate-in');
+    }
+    setTimeout(() => {
+      this.renderer.removeClass(this.container?.nativeElement, 'animate-in');
+    }, 500);
+  }
+
+  goToHome(event: MouseEvent) {
+    event.preventDefault();
+    if (this.container) {
+      this.renderer.addClass(this.container.nativeElement, 'animate-out');
+      setTimeout(() => {
+        this.move();
+      }, 500);
+    }
+  }
+
+  move(): void {
     this.router.navigate(['home']);
   }
 }

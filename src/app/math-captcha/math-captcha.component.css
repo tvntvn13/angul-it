@@ -13,10 +13,11 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    overflow: hidden;
   }
 
   #input {
-    width: 10rem;
+    /* width: 10rem; */
     height: 2rem;
     border: solid 2px azure;
     border-radius: 10px;

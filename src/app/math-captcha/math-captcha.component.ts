@@ -1,16 +1,37 @@
-import { Component } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-math-captcha',
   templateUrl: './math-captcha.component.html',
   styleUrls: ['./math-captcha.component.css'],
 })
-export class MathCaptchaComponent {
-  constructor(private router: Router) {
+export class MathCaptchaComponent implements AfterViewInit {
+  @ViewChild('container')
+    container: ElementRef | undefined;
+  constructor(
+    private router: Router,
+    private messageService: MessageService,
+    private renderer: Renderer2,
+  ) {
     this.helper = new Helper();
     this.captcha = this.helper.generateCaptcha();
+  }
+  ngAfterViewInit(): void {
+    if (this.container) {
+      this.renderer.addClass(this.container.nativeElement, 'animate-in');
+    }
+    setTimeout(() => {
+      this.renderer.removeClass(this.container?.nativeElement, 'animate-in');
+    }, 500);
   }
 
   helper: Helper;
@@ -28,11 +49,31 @@ export class MathCaptchaComponent {
       this.congratsMessage = 'CONGRATS!';
       this.congratsOpacity = 1;
       this.completed = true;
+      this.showSuccess();
     } else {
       this.failed = true;
       this.congratsMessage = 'WRONG!';
       this.congratsOpacity = 1;
+      this.showFail();
     }
+  }
+
+  showSuccess(): void {
+    this.messageService.add({
+      key: 'tr',
+      severity: 'success',
+      summary: 'Congrats!',
+      detail: 'You cleared the captcha!',
+    });
+  }
+
+  showFail(): void {
+    this.messageService.add({
+      key: 'tr',
+      severity: 'error',
+      summary: 'Oops!',
+      detail: 'You failed, try again.',
+    });
   }
 
   refreshCaptcha(event: MouseEvent): void {
@@ -47,7 +88,15 @@ export class MathCaptchaComponent {
 
   goToNext(event: MouseEvent): void {
     event.preventDefault();
-    console.log('cheeerss...');
+    if (this.container) {
+      this.renderer.addClass(this.container.nativeElement, 'animate-out');
+      setTimeout(() => {
+        this.move();
+      }, 500);
+    }
+  }
+
+  move(): void {
     this.router.navigate(['level2']);
   }
 }

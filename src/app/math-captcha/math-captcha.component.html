@@ -1,4 +1,6 @@
-<div id="container">
+<div id="container" #container>
+  <p-toast position="top-right" key="tr" [showTransformOptions]="'translateX(100%)'" [showTransitionOptions]="'300ms'"
+    [life]="1500" [hideTransformOptions]="'translateY(-100%)'" [hideTransitionOptions]="'500ms'"></p-toast>
   <p id="captcha">{{ captcha.question }}</p>
   <form id="form" (ngSubmit)="onSubmit($event)">
     <input type="text" id="input" [(ngModel)]="userValue" name="captchaInput" required>
@@ -7,8 +9,10 @@
       <button class="next" (click)="goToNext($event)" *ngIf="completed && !failed">next</button>
       <button class="next" (click)="refreshCaptcha($event)" *ngIf="!completed && failed"><fa-icon
           [icon]="refreshIcon"></fa-icon></button>
-      <button (click)="refreshCaptcha($event)" *ngIf="!completed && !failed">retry</button>
+      <button (click)="refreshCaptcha($event)" *ngIf="!completed && !failed">
+        <fa-icon [icon]="refreshIcon"></fa-icon>
+      </button>
     </div>
   </form>
-  <h2 id="congrats" [style.opacity]="congratsOpacity">{{ congratsMessage }}</h2>
+  <!-- <h2 id="congrats" [style.opacity]="congratsOpacity">{{ congratsMessage }}</h2> -->
 </div>

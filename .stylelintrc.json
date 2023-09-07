@@ -2,7 +2,7 @@
   "extends": "stylelint-config-standard",
   "rules": {
     "selector-class-pattern": null,
-    "unit-allowed-list": ["em", "rem", "px", "%", "vw", "vh"],
+    "unit-allowed-list": ["em", "rem", "px", "%", "vw", "vh", "s"],
     "comment-empty-line-before": null
   }
 }
