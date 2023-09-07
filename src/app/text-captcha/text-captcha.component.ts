@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-text-captcha',
   templateUrl: './text-captcha.component.html',
   styleUrls: ['./text-captcha.component.css'],
 })
-export class TextCaptchaComponent implements OnInit {
+export class TextCaptchaComponent {
   completed = false;
   userValue = '';
-  captcha: any;
-  congratsMessage = '';
+  captcha: { code: string; imageData: string };
+  congratsMessage = 'TEMP';
   congratsOpacity = 0;
   failed = false;
+  refreshIcon = faArrowRotateRight;
 
   constructor(private router: Router) {
     this.captcha = new captcha({
@@ -22,15 +24,8 @@ export class TextCaptchaComponent implements OnInit {
     }).draw();
   }
 
-  ngOnInit(): void {
-    this.captcha = new captcha({
-      stringLength: 6,
-      lineNoise: 25,
-      dotNoise: 150,
-    }).draw();
-  }
-
-  onsubmit(): void {
+  onsubmit(event: SubmitEvent): void {
+    event.preventDefault();
     if (this.userValue.toLowerCase() === this.captcha.code.toLowerCase()) {
       this.congratsMessage = 'CONGRATS!';
       this.congratsOpacity = 1;
@@ -40,12 +35,12 @@ export class TextCaptchaComponent implements OnInit {
       this.congratsMessage = 'WRONG!';
       this.userValue = '';
       this.congratsOpacity = 1;
-      this.completed = false;
       this.failed = true;
     }
   }
 
-  refreshCaptcha(): void {
+  refreshCaptcha(event: MouseEvent): void {
+    event.preventDefault();
     this.captcha = new captcha({
       stringLength: 6,
       lineNoise: 25,
@@ -53,11 +48,13 @@ export class TextCaptchaComponent implements OnInit {
     }).draw();
     this.userValue = '';
     this.congratsOpacity = 0;
+    this.congratsMessage = 'TEMP';
     this.failed = false;
     this.completed = false;
   }
 
-  goToNext(): void {
+  goToNext(event: MouseEvent): void {
+    event.preventDefault();
     this.router.navigate(['level3']);
   }
 }
@@ -69,7 +66,9 @@ class captcha {
     dotNoise: 150,
   };
 
-  constructor(options: any) {
+  constructor(
+    options: { stringLength: number; lineNoise: number; dotNoise: number },
+  ) {
     this.options.stringLength = options.stringLength;
     this.options.lineNoise = options.lineNoise;
     this.options.dotNoise = options.dotNoise;
@@ -81,7 +80,7 @@ class captcha {
     canvasCreator.lineNoiseGenerator();
     canvasCreator.dotNoiseGenerator();
     const dataImage = canvasCreator.convertCanvasToImage();
-    const code = canvasCreator.captcha;
+    const code = canvasCreator.captchaString;
     return { code: code, imageData: dataImage };
   }
 }
@@ -89,16 +88,18 @@ class captcha {
 class helper {
   letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
   hexColor = '0123456789abcdef';
-  captcha: any;
+  captchaString = '';
   canvas = document.createElement('canvas');
-  context = this.canvas?.getContext('2d');
+  context = this.canvas.getContext('2d');
   options = {
     stringLength: 6,
     lineNoise: 25,
     dotNoise: 150,
   };
 
-  constructor(options: any) {
+  constructor(
+    options: { stringLength: number; lineNoise: number; dotNoise: number },
+  ) {
     this.options.stringLength = options.stringLength;
     this.options.lineNoise = options.lineNoise;
     this.options.dotNoise = options.dotNoise;
@@ -133,7 +134,7 @@ class helper {
         this.canvas.width * Math.random(),
         this.canvas.height * Math.random(),
       );
-      this.context?.lineTo(
+      this.context.lineTo(
         this.canvas.width * Math.random(),
         this.canvas.height * Math.random(),
       );
@@ -147,7 +148,7 @@ class helper {
     if (this.context === null) return;
     for (let i = 0; i < length; i++) {
       this.context.fillStyle = this.colorGenerator();
-      this.context?.fillRect(
+      this.context.fillRect(
         this.canvas.width * Math.random(),
         this.canvas.height * Math.random(),
         5,
@@ -171,7 +172,7 @@ class helper {
     this.context.font = 'italic 75px Arial';
     this.context.fillStyle = this.colorGenerator();
 
-    this.captcha = this.generateStringForCaptcha();
-    this.context.fillText(this.captcha, 0, 100);
+    this.captchaString = this.generateStringForCaptcha();
+    this.context.fillText(this.captchaString, 0, 100);
   }
 }

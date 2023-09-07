@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ImageService } from '../image.service';
+import { ImageService } from '../service/image.service';
+import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-image-captcha',
@@ -19,16 +20,15 @@ export class ImageCaptchaComponent implements AfterViewInit {
     this.correctAnswerArray = this.captcha.key;
     this.currentImage = this.captcha.imageUrl;
     this.answerArray = this.imageService.initEmptyArray(this.gridLength);
-    this.bgUrl = `url(${this.currentImage})`;
   }
   ngAfterViewInit(): void {
+    this.refreshCaptcha();
     if (this.gridElement) {
       const grid = this.gridElement.nativeElement;
       grid.style.backgroundImage = `url(${this.captcha.imageUrl}`;
     }
   }
 
-  bgUrl: string;
   answerArray: boolean[][];
   correctAnswerArray: boolean[][];
   captcha: { imageUrl: string; key: boolean[][] };
@@ -38,6 +38,7 @@ export class ImageCaptchaComponent implements AfterViewInit {
   congratsOpacity: 1 | 0 = 0;
   currentImage: string;
   gridLength: number = 5;
+  refreshIcon = faArrowRotateRight;
 
   cellClicked(
     rowIndex: number,
@@ -50,8 +51,7 @@ export class ImageCaptchaComponent implements AfterViewInit {
     this.answerArray[colIndex][rowIndex]
       ? button?.classList.add('selected')
       : button?.classList.remove('selected');
-
-    console.log('clicked: col: ', colIndex, ' row: ', rowIndex);
+    // console.log('clicked: col: ', colIndex, ' row: ', rowIndex);
   }
 
   validateCaptcha(): void {
@@ -61,14 +61,12 @@ export class ImageCaptchaComponent implements AfterViewInit {
     );
 
     isAnswerValid ? this.success() : this.fail();
-
-    // console.log(JSON.stringify(this.answerArray));
-    // console.log(JSON.stringify(this.captcha.key));
   }
 
   refreshCaptcha(): void {
     const gridElement = document.getElementById('captcha');
     const buttons = gridElement?.querySelectorAll('button');
+
     this.captcha = this.imageService.generateCaptcha(this.currentImage);
     this.answerArray = this.imageService.initEmptyArray(this.gridLength);
     this.correctAnswerArray = this.captcha.key;
@@ -85,6 +83,7 @@ export class ImageCaptchaComponent implements AfterViewInit {
   }
 
   goToNext(): void {
+    this.refreshCaptcha();
     this.router.navigate(['results']);
   }
 
@@ -95,7 +94,7 @@ export class ImageCaptchaComponent implements AfterViewInit {
   }
 
   fail() {
-    // this.failed = true;
+    this.failed = true;
     this.congratsMessage = 'Wrong answer, try again';
     this.congratsOpacity = 1;
   }

@@ -1,28 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-math-captcha',
   templateUrl: './math-captcha.component.html',
   styleUrls: ['./math-captcha.component.css'],
 })
-export class MathCaptchaComponent implements OnInit {
-  constructor(private router: Router) {}
-
-  ngOnInit() {
+export class MathCaptchaComponent {
+  constructor(private router: Router) {
     this.helper = new Helper();
     this.captcha = this.helper.generateCaptcha();
   }
 
-  helper: any;
-  captcha: any;
+  helper: Helper;
+  captcha: { question: string; answer: number };
   userValue = '';
   congratsOpacity = 0;
-  congratsMessage = '';
+  congratsMessage = 'TEMP';
   completed = false;
   failed = false;
+  refreshIcon = faArrowRotateRight;
 
-  onSubmit(): void {
+  onSubmit(event: SubmitEvent): void {
+    event.preventDefault();
     if (parseInt(this.userValue, 10) === this.captcha.answer) {
       this.congratsMessage = 'CONGRATS!';
       this.congratsOpacity = 1;
@@ -34,15 +35,18 @@ export class MathCaptchaComponent implements OnInit {
     }
   }
 
-  refreshCaptcha(): void {
+  refreshCaptcha(event: MouseEvent): void {
+    event.preventDefault();
     this.captcha = this.helper.generateCaptcha();
     this.userValue = '';
     this.congratsOpacity = 0;
+    this.congratsMessage = 'TEMP';
     this.failed = false;
     this.completed = false;
   }
 
-  goToNext(): void {
+  goToNext(event: MouseEvent): void {
+    event.preventDefault();
     console.log('cheeerss...');
     this.router.navigate(['level2']);
   }

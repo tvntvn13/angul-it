@@ -47,7 +47,7 @@ export class ImageService {
       'assets/images/10.jpg',
     ];
 
-    this.length = this.imageUrls.length-1;
+    this.length = this.imageUrls.length - 1;
 
     this.captcha = this.generateCaptcha(this.currentImageUrl);
   }
@@ -55,16 +55,16 @@ export class ImageService {
   generateCaptcha(currentImgUrl: string | null ) : { imageUrl: string, key: boolean[][] } {
     const index: number = Math.round(Math.random()*this.length);
     
-    if(currentImgUrl === null || this.currentImageUrl){
+    if(currentImgUrl === null || this.currentImageUrl != this.imageUrls[index]){
       this.currentImageUrl = this.imageUrls[index];
-      this.key = this.convertTo2D(this.keys[index]);
+      this.key = this.convertKeyTo2d(this.keys[index]);
       return { imageUrl: this.currentImageUrl, key: this.key };
     } else {
       return this.generateCaptcha(this.currentImageUrl);
     }
   }
   
-  convertTo2D(key: boolean[]): boolean[][] {
+  convertKeyTo2d(key: boolean[]): boolean[][] {
     const key2D: boolean[][] = [];
     for(let i=0; i<5; i++){
       const row: boolean[] = [];
