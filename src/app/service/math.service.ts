@@ -37,6 +37,31 @@ class Helper {
 
   private operators = ['minus', 'plus'];
 
+  randomChance(): boolean {
+    return Math.random() > 0.5;
+  }
+
+  randomizeString(wordString: string): string {
+    let randomString = '';
+    for (const char of wordString) {
+      if (char == 'o') {
+        this.randomChance() ? randomString += '0' : randomString += char;
+        continue;
+      }
+      if (char == 'i') {
+        this.randomChance() ? randomString += '1' : randomString += char;
+        continue;
+      }
+      if (char == 'e') {
+        this.randomChance() ? randomString += '3' : randomString += char;
+        continue;
+      } else {this.randomChance()
+        ? randomString += char.toUpperCase()
+        : randomString += char;}
+    }
+    return randomString;
+  }
+
   generateCaptcha(): { question: string; answer: number } {
     const num1 = Math.ceil(Math.random() * 10);
     const num2 = Math.ceil(Math.random() * 10);
@@ -52,6 +77,6 @@ class Helper {
     } ${ops2} ${this.numbers.get(num3)}`;
 
     console.log('\n\n', answer);
-    return { question: question, answer: answer };
+    return { question: this.randomizeString(question), answer: answer };
   }
 }

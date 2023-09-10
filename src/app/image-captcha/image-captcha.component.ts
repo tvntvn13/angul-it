@@ -7,8 +7,15 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ImageService } from '../service/image.service';
-import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
+import {
+  faArrowRotateRight,
+  faBackward,
+  faForward,
+} from '@fortawesome/free-solid-svg-icons';
 import { MessageService } from 'primeng/api';
+import { StateService } from '../service/state.service';
+
+// import { LevelResult } from '../interface/level-result';
 
 @Component({
   selector: 'app-image-captcha',
@@ -21,21 +28,38 @@ export class ImageCaptchaComponent implements AfterViewInit {
   @ViewChild('container')
     container: ElementRef | undefined;
 
+  level = 'level3';
+  answerArray: boolean[][];
+  correctAnswerArray: boolean[][];
+  captcha: { imageUrl: string; key: boolean[][] };
+  completed = false;
+  failed = false;
+  currentImage: string;
+  gridLength: number = 5;
+  refreshIcon = faArrowRotateRight;
+  bgUrl: string;
+  warningUrl = 'url("assets/images/warning.png")';
+  backward = faBackward;
+  forward = faForward;
+  canSkip = false;
+  currentLevel = 3;
+
   constructor(
     private router: Router,
     private imageService: ImageService,
     private messageService: MessageService,
     private renderer: Renderer2,
+    private stateService: StateService,
   ) {
     this.captcha = this.imageService.getCaptcha();
     this.correctAnswerArray = this.captcha.key;
     this.currentImage = this.captcha.imageUrl;
     this.answerArray = this.imageService.initEmptyArray(this.gridLength);
     this.bgUrl = `url(${this.currentImage})`;
+    this.canSkip = this.stateService.getHighestCompleted() >= this.currentLevel;
   }
 
   ngAfterViewInit(): void {
-    this.refreshCaptcha();
     if (this.gridElement) {
       const grid = this.gridElement.nativeElement;
       this.renderer.setStyle(grid, 'backgroundImage', this.bgUrl);
@@ -48,19 +72,6 @@ export class ImageCaptchaComponent implements AfterViewInit {
       this.renderer.removeClass(this.container?.nativeElement, 'animate-in');
     }, 500);
   }
-
-  answerArray: boolean[][];
-  correctAnswerArray: boolean[][];
-  captcha: { imageUrl: string; key: boolean[][] };
-  completed = false;
-  failed = false;
-  congratsMessage: string = 'TEMP';
-  congratsOpacity: 1 | 0 = 0;
-  currentImage: string;
-  gridLength: number = 5;
-  refreshIcon = faArrowRotateRight;
-  bgUrl: string = '';
-  warningUrl = 'url("assets/images/warning.png")';
 
   cellClicked(
     rowIndex: number,
@@ -81,7 +92,13 @@ export class ImageCaptchaComponent implements AfterViewInit {
       this.correctAnswerArray,
     );
 
-    isAnswerValid ? this.success() : this.fail();
+    if (isAnswerValid) {
+      this.stateService.updateCurrentLevelSuccess(this.level);
+      this.success();
+    } else {
+      this.stateService.updateCurrentLevelFail(this.level);
+      this.fail();
+    }
   }
 
   refreshCaptcha(): void {
@@ -90,8 +107,6 @@ export class ImageCaptchaComponent implements AfterViewInit {
     this.correctAnswerArray = this.captcha.key;
     this.completed = false;
     this.failed = false;
-    this.congratsMessage = 'TEMP';
-    this.congratsOpacity = 0;
     if (this.gridElement) {
       this.bgUrl = `url(${this.captcha.imageUrl})`;
       this.renderer.setStyle(
@@ -112,6 +127,16 @@ export class ImageCaptchaComponent implements AfterViewInit {
         this.move();
       }, 500);
     }
+  }
+
+  goBack(event: MouseEvent): void {
+    event.preventDefault();
+    this.router.navigate(['level2']);
+  }
+
+  skipLevel(event: MouseEvent): void {
+    event.preventDefault();
+    this.router.navigate(['results']);
   }
 
   move(): void {

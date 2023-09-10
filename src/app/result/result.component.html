@@ -1,10 +1,23 @@
 <div class="container" #container>
+  <div class="header">
+    <button class="nav-button backward" (click)="goBack($event)"><fa-icon [icon]="backward"></fa-icon></button>
+  </div>
   <h2>CONGRATS!</h2>
-  <br>
-  <p>you are legit human</p>
-  <br>
-  <br>
-  <br>
-  <br>
-  <button id="start-button" (click)="goToHome($event)">BACK</button>
+  <p>you<span id="are"> are</span> a legit <span id="human">human</span></p>
+  <div id="results"></div>
+  <div class="result-container">
+    <div class="result">
+      <p class="level">Math</p>
+      <p class="percentage">{{ level1Result }}</p>
+    </div>
+    <div class="result">
+      <p class="level">Text</p>
+      <p class="percentage">{{ level2Result }}</p>
+    </div>
+    <div class="result">
+      <p class="level">Image</p>
+      <p class="percentage">{{ level3Result }}</p>
+    </div>
+  </div>
+  <button class="basic-button" (click)="goToHome($event)">HOME</button>
 </div>

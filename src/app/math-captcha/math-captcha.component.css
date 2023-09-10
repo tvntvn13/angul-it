@@ -1,58 +1,61 @@
-  * {
-    background-color: #131121;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    color: azure;
-  }
+.buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: center;
+}
 
-  #container {
-    display: flex;
-    width: 100vw;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    overflow: hidden;
-  }
+#captcha {
+  font-size: 1.3rem;
+}
 
-  #input {
-    /* width: 10rem; */
-    height: 2rem;
-    border: solid 2px azure;
-    border-radius: 10px;
-    outline: none;
-    box-shadow: none;
-    padding-inline: 5px;
-    color: azure;
-    text-align: center;
-    margin-top: 1rem;
-    width: 100%;
-  }
+.buttons fa-icon {
+  filter: drop-shadow(0 0 5px var(--purple2));
+}
 
-  #container button {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    padding: 10px;
-    border-radius: 10px;
-    width: 6rem;
-    outline: none;
-    border: 1px solid grey;
-    box-shadow: none;
-  }
+.next {
+  margin-left: auto;
+  margin-right: auto;
+}
 
-  #container button:focus,
-  #container button:hover {
-    border: 1px solid azure;
-  }
+.w1 {
+  color: var(--yellow);
+  text-shadow: 0 0 5px var(--yellow);
+  font-style: italic;
+  font-size: 1.7rem;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
 
-  .buttons {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-  }
+.w2 {
+  color: var(--purple2);
+  text-shadow: 0 0 5px var(--purple2);
+  font-weight: bold;
+  font-size: 1.8rem;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
 
-  .next {
-   margin-left: auto;
-   margin-right: auto;
-  }
+.w3 {
+  color: var(--green);
+  text-shadow: 0 0 5px var(--green);
+  font-size: 1.6rem;
+  font-weight: bolder;
+}
+
+.w4 {
+  color: var(--yellow);
+  text-shadow: 0 0 5px var(--yellow);
+  font-size: 1.9rem;
+}
+
+.w5 {
+  color: var(--purple2);
+  text-shadow: 0 0 5px var(--purple2);
+}
+
+@media screen and (width <= 400px){
+  .w1 { font-size: 1.2rem; }
+  .w2 { font-size: 1.3rem; }
+  .w3 { font-size: 1.5rem; }
+  .w4 { font-size: 1.2rem; }
+  .w5 { font-size: 1.3rem; }
+}

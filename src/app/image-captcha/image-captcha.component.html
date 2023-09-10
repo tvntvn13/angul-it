@@ -1,7 +1,19 @@
 <div class="container" #container>
+  <div class="header">
+    <button class="nav-button backward" (click)="goBack($event)"><fa-icon [icon]="backward"></fa-icon></button>
+    <button class="nav-button forward" *ngIf="canSkip" (click)="skipLevel($event)"><fa-icon
+        [icon]="forward"></fa-icon></button>
+  </div>
   <p-toast position="top-right" key="tr" [showTransformOptions]="'translateX(100%)'" [showTransitionOptions]="'300ms'"
-    [hideTransformOptions]="'translateY(-100%)'" [hideTransitionOptions]="'500ms'" [life]="1500"></p-toast>
-  <form id="form">
+    [hideTransformOptions]="'translateY(-100%)'" [hideTransitionOptions]="'500ms'" [life]="1500"
+    [breakpoints]="{'450px': {width: '100%', right: '0', left: '0'}}"></p-toast>
+  <div class="grid-container">
+    <div class="text-container">
+      <p>Select the</p>
+      <p id="square">squares</p>
+      <p>that contain</p>
+      <p id="animal">animal</p>
+    </div>
     <div class="grid" id="captcha" #gridElement [style.backgroudImage]="bgUrl">
       <div *ngFor="let row of [0,1,2,3,4]" class="grid-item">
         <div *ngFor="let col of [0,1,2,3,4]" class="grid-item">
@@ -10,17 +22,15 @@
         </div>
       </div>
     </div>
-    <div class="buttons">
-      <button id="submit" (click)="validateCaptcha()" type="submit" *ngIf="!completed && !failed">submit</button>
-      <button class="next" (click)="goToNext($event)" *ngIf="completed && !failed">results</button>
-      <button class="next" (click)="refreshCaptcha()" *ngIf="failed && !completed">
-        <fa-icon [icon]="refreshIcon"></fa-icon>
-      </button>
-      <button (click)="refreshCaptcha()" *ngIf="!completed && !failed"><fa-icon [icon]="refreshIcon"></fa-icon></button>
-    </div>
-  </form>
-  <!-- <h2 id="congrats" [style.opacity]="congratsOpacity">{{ congratsMessage }}</h2> -->
-
-  <!-- THIS IS TEST - REMOVE LATER -->
-  <!-- <button type="button" (click)="goToNext($event)" style="height:3rem;width:6rem;background-color:pink">test</button> -->
+  </div>
+  <div class="buttons">
+    <button class="basic-button" id="submit" (click)="validateCaptcha()" type="submit"
+      *ngIf="!completed && !failed">submit</button>
+    <button class="next basic-button" (click)="goToNext($event)" *ngIf="completed && !failed">results</button>
+    <button class="next basic-button" (click)="refreshCaptcha()" *ngIf="failed && !completed">
+      <fa-icon [icon]="refreshIcon"></fa-icon>
+    </button>
+    <button class="basic-button" (click)="refreshCaptcha()" *ngIf="!completed && !failed"><fa-icon
+        [icon]="refreshIcon"></fa-icon></button>
+  </div>
 </div>

@@ -1,18 +1,29 @@
-<div id="container" #container>
+<div class="container" #container>
+  <div class="header">
+    <button class="nav-button backward" (click)="goBack($event)"><fa-icon [icon]="backward"></fa-icon></button>
+    <button class="nav-button forward" *ngIf="canSkip" (click)="skipLevel($event)"><fa-icon
+        [icon]="forward"></fa-icon></button>
+  </div>
   <p-toast position="top-right" key="tr" [showTransformOptions]="'translateX(100%)'" [showTransitionOptions]="'300ms'"
-    [life]="1500" [hideTransformOptions]="'translateY(-100%)'" [hideTransitionOptions]="'500ms'"></p-toast>
-  <p id="captcha">{{ captcha.question }}</p>
+    [life]="1500" [hideTransformOptions]="'translateY(-100%)'" [hideTransitionOptions]="'500ms'"
+    [breakpoints]="{'450px': {width: '100%', right: '0', left: '0'}}"></p-toast>
+
+  <p id="captcha"><span class="w1" #w1>{{ words[0] }} </span><span class="w2" #w2>{{ words[1] }} </span>
+    <span class="w3" #w3>{{ words[2] }} </span> <span class="w4" #w4>{{ words[3] }} </span><span class="w5" #w5>{{
+      words[4] }}
+    </span>
+  </p>
   <form id="form" (ngSubmit)="onSubmit($event)">
-    <input type="text" id="input" [(ngModel)]="userValue" name="captchaInput" required>
+    <input #inputField type="text" class="input" [(ngModel)]="userValue" name="captchaInput" required
+      placeholder="Enter answer as number eg. -3" maxlength="3">
     <div class="buttons">
-      <button id="submit" type="submit" *ngIf="!completed && !failed">submit</button>
-      <button class="next" (click)="goToNext($event)" *ngIf="completed && !failed">next</button>
-      <button class="next" (click)="refreshCaptcha($event)" *ngIf="!completed && failed"><fa-icon
+      <button class="basic-button" type="submit" *ngIf="!completed && !failed">submit</button>
+      <button class="next basic-button" (click)="goToNext($event)" *ngIf="completed && !failed">next</button>
+      <button class="next basic-button" (click)="refreshCaptcha($event)" *ngIf="!completed && failed"><fa-icon
           [icon]="refreshIcon"></fa-icon></button>
-      <button (click)="refreshCaptcha($event)" *ngIf="!completed && !failed">
+      <button class="basic-button" (click)="refreshCaptcha($event)" *ngIf="!completed && !failed">
         <fa-icon [icon]="refreshIcon"></fa-icon>
       </button>
     </div>
   </form>
-  <!-- <h2 id="congrats" [style.opacity]="congratsOpacity">{{ congratsMessage }}</h2> -->
 </div>

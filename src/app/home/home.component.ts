@@ -6,19 +6,23 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { StateService } from '../service/state.service';
+import { LevelResult } from '../interface/level-result';
+import { faForward } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
   template: `<div class="container" #homeContainer>
-  <pre>
-    <p id="home-paragraph">
-Hey, and welcome.
-
-To verify you are a human,
-start the tests.
-    </p>
-  </pre>
-  <button id="start-button" (click)="goToCaptchas()">START</button>
+  <div class="header">
+    <button class="nav-button forward" *ngIf="canSkip" (click)="skipLevel($event)"><fa-icon
+        [icon]="forward"></fa-icon></button>
+  </div>
+<div id="welcome">
+<p><span class="hey">Hey,</span> and welcome.
+<br>
+To <span class="human">verify</span> you are a <span class="human">human,</span><br>start the<span id="tests"> tests.</span>
+</div>
+  <button class="basic-button" (click)="goToCaptchas()">{{ canSkip ? 'RESTART' : 'START' }}</button>
 </div>`,
   styles: [
     `.container {
@@ -26,31 +30,44 @@ start the tests.
   align-items: center;
   justify-content: center;
   width: 100vw;
-  height: 100vh;
-  flex-direction: column;}
-#home-paragraph {
-  text-align: justify;
+  height: 100vh;}
+#welcome {
+  text-align: left;
   font-size:1.5rem;
-  color: #b9c2f8;}
-#start-button {
-  display: flex;
-  width: 15%;
-  padding: 1rem;
-  height: 2rem;
-  color: #00d0a3;
-  background-color: #1e343f;
-  border-radius: 10px;
-  border: solid 1px #00ffae;
-  justify-content: center;
-  align-items: center;}
-#start-button:hover {
-  transform: scale(1.2,1.2);}`,
+  color: var(--green);
+  text-shadow: 0 0 5px var(--green);
+  line-height: 2.5rem;
+}
+.hey {
+color: var(--yellow);
+text-shadow: 0 0 5px var(--yellow);
+}
+.human {
+  color: var(--yellow);
+  text-shadow: 0 0 5px var(--yellow);
+}
+#tests {
+color: var(--purple2);
+text-shadow: 0 0 4px var(--purple2);
+}
+`,
   ],
 })
 export class HomeComponent implements AfterViewInit {
   @ViewChild('homeContainer')
     container: ElementRef | undefined;
-  constructor(private router: Router, private renderer: Renderer2) {}
+  state: Map<string, LevelResult>;
+  forward = faForward;
+  canSkip = false;
+
+  constructor(
+    private router: Router,
+    private renderer: Renderer2,
+    private stateService: StateService,
+  ) {
+    this.state = this.stateService.getState();
+    this.canSkip = this.stateService.getHighestCompleted() >= 1;
+  }
 
   ngAfterViewInit(): void {
     if (this.container) {
@@ -61,7 +78,14 @@ export class HomeComponent implements AfterViewInit {
     }, 500);
   }
 
+  skipLevel(event: MouseEvent): void {
+    event.preventDefault();
+    this.router.navigate(['level1']);
+  }
+
   goToCaptchas() {
+    if (this.state.size != 0) this.stateService.resetState();
+    this.stateService.initCurrentLevel();
     if (this.container) {
       this.renderer.addClass(this.container.nativeElement, 'animate-out');
       setTimeout(() => {
