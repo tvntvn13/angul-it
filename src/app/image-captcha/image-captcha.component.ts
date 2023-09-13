@@ -15,8 +15,6 @@ import {
 import { MessageService } from 'primeng/api';
 import { StateService } from '../service/state.service';
 
-// import { LevelResult } from '../interface/level-result';
-
 @Component({
   selector: 'app-image-captcha',
   templateUrl: './image-captcha.component.html',

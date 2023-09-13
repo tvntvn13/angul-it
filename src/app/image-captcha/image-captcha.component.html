@@ -9,10 +9,11 @@
     [breakpoints]="{'450px': {width: '100%', right: '0', left: '0'}}"></p-toast>
   <div class="grid-container">
     <div class="text-container">
-      <p>Select the</p>
-      <p id="square">squares</p>
-      <p>that contain</p>
-      <p id="animal">animal</p>
+      <p>Select the
+        <span id="square">squares </span>
+        <span>that contain </span>
+        <span id="animal">animal</span>
+      </p>
     </div>
     <div class="grid" id="captcha" #gridElement [style.backgroudImage]="bgUrl">
       <div *ngFor="let row of [0,1,2,3,4]" class="grid-item">

@@ -68,8 +68,8 @@ export class StateService {
 
   calculatePercentage(level: string): string {
     const tries = this.getState().get(level)!.tries;
-    const result = Math.round(1 / tries * 100);
-    return result.toFixed(2) + '%';
+    const result = 1 / tries * 100;
+    return result % 1 != 0 ? result.toFixed(1) + '%' : result.toString() + '%';
   }
 
   updateCurrentLevelSuccess(level: string): void {
