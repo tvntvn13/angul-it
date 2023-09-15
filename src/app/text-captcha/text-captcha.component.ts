@@ -2,7 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  Renderer2,
+  // Renderer2,
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -41,7 +41,7 @@ export class TextCaptchaComponent implements AfterViewInit {
   constructor(
     private router: Router,
     private messageService: MessageService,
-    private renderer: Renderer2,
+    // private renderer: Renderer2,
     private textService: TextService,
     private stateService: StateService,
   ) {
@@ -50,14 +50,11 @@ export class TextCaptchaComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.container) {
-      this.renderer.addClass(this.container.nativeElement, 'animate-in');
-    }
+    // if (this.container) {
+    //   this.renderer.addClass(this.container.nativeElement, 'animate-in');
+    // }
 
-    setTimeout(() => {
-      this.renderer.removeClass(this.container?.nativeElement, 'animate-in');
-      this.input?.nativeElement.focus();
-    }, 500);
+    this.input?.nativeElement.focus();
   }
 
   onsubmit(event: SubmitEvent): void {
@@ -86,12 +83,14 @@ export class TextCaptchaComponent implements AfterViewInit {
 
   goToNext(event: MouseEvent): void {
     event.preventDefault();
-    if (this.container) {
-      this.renderer.addClass(this.container.nativeElement, 'animate-out');
-      setTimeout(() => {
-        this.move();
-      }, 500);
-    }
+    // if (this.container) {
+    //   this.renderer.addClass(this.container.nativeElement, 'animate-out');
+    //   setTimeout(() => {
+    //     this.renderer.removeClass(this.container?.nativeElement, 'animate-out');
+    //     this.move();
+    //   }, 500);
+    // }
+    this.router.navigate(['level3']);
   }
 
   skipLevel(event: MouseEvent): void {

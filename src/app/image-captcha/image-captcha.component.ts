@@ -23,8 +23,8 @@ import { StateService } from '../service/state.service';
 export class ImageCaptchaComponent implements AfterViewInit {
   @ViewChild('gridElement')
     gridElement: ElementRef | undefined;
-  @ViewChild('container')
-    container: ElementRef | undefined;
+  @ViewChild('gridButton')
+    gridButton: ElementRef | undefined;
 
   level = 'level3';
   answerArray: boolean[][];
@@ -62,13 +62,6 @@ export class ImageCaptchaComponent implements AfterViewInit {
       const grid = this.gridElement.nativeElement;
       this.renderer.setStyle(grid, 'backgroundImage', this.bgUrl);
     }
-    if (this.container) {
-      this.renderer.addClass(this.container.nativeElement, 'animate-in');
-    }
-
-    setTimeout(() => {
-      this.renderer.removeClass(this.container?.nativeElement, 'animate-in');
-    }, 500);
   }
 
   cellClicked(
@@ -114,17 +107,16 @@ export class ImageCaptchaComponent implements AfterViewInit {
       );
     }
     this.clearButtons();
+    this.renderer.setStyle(
+      this.gridButton?.nativeElement,
+      'borderColor',
+      '#2d28285a',
+    );
   }
 
   goToNext(event: MouseEvent): void {
     event.preventDefault();
-    if (this.container) {
-      this.renderer.addClass(this.container.nativeElement, 'animate-out');
-      setTimeout(() => {
-        this.refreshCaptcha();
-        this.move();
-      }, 500);
-    }
+    this.move();
   }
 
   goBack(event: MouseEvent): void {
@@ -175,12 +167,10 @@ export class ImageCaptchaComponent implements AfterViewInit {
   }
 
   fail() {
-    const grid = this.gridElement?.nativeElement;
+    const gridButton = this.gridButton?.nativeElement;
     this.failed = true;
     this.clearButtons();
-    this.renderer.setStyle(grid, 'backgroundImage', this.warningUrl);
-    //TODO this  ain't working, maybe fix later
-    this.renderer.setStyle(grid, 'z-index', 100);
+    this.renderer.setStyle(gridButton, 'borderColor', 'transparent');
     this.showFail();
   }
 }

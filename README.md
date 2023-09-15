@@ -1,27 +1,91 @@
-# AngulIt
+# ANGUL-IT
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.4.
+### Introduction
 
-## Development server
+This project is a multiple-stage capctha app. Project is made with Angular 16,
+and it's part of **Gritlab's** Java projects track.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+##### Prerequisites
 
-## Code scaffolding
+- Angular CLI
+- npm or yarn
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+##### How to run:
 
-## Build
+- on dev server: _(server will start at https://127.0.0.1:4200)_
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+npm install
+npm start
+```
 
-## Running unit tests
+- build:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```bash
+npm install
+ng build --aot
+```
 
-## Running end-to-end tests
+- then go to dist/ folder and: _(server will start at https://127.0.0.1:4200)_
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```bash
+python3 -m http-server
+```
 
-## Further help
+##### Online:
+- The app is also hosted [**here**](https://captcha-96d84.web.app/home)
+---
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### Captchas
+
+---
+
+##### Math Captcha
+
+- User receives a random generated string representation of simple addition and
+  deduction math problem
+- Correct answer should be input as a number
+
+##### Text Captcha
+
+- User receives a random genrated sequence of letters and numbers
+- Correct answer is case-insensitive
+
+##### Image Captcha
+
+- User receives a randomly chosen picture of an animal. User needs to select all
+  squares that contain the animal
+
+###### Notes:
+
+###### _User can refresh the captchas as many times as they like, it won't effect the score_
+
+---
+
+### State
+
+---
+
+- App saves the state of users answers, and progression. These values are stored
+  in local storage, and they are encrypted to obfuscate the data
+- After completing a certain Captcha, the user can navigate backwards to that
+  captcha
+
+---
+
+### Results
+
+---
+
+- After completing all 3 captchas, the user is presented with results page,
+  showing their results
+
+---
+
+### Route-guarding
+
+---
+
+- All the routes except home and the 1st captcha, are locked. The rest of the
+  captchas and the results page can only be accessed after completing all the
+  captchas

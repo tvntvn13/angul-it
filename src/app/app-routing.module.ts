@@ -9,31 +9,34 @@ import { levelGuard } from './service/level.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
+  {
+    path: 'home',
+    component: HomeComponent,
+    // data: { num: 0 }
+  },
   {
     path: 'level1',
     component: MathCaptchaComponent,
+    data: { num: 1 },
     // canActivate: [levelGuard('level1')],
   },
   {
     path: 'level2',
     component: TextCaptchaComponent,
     canActivate: [levelGuard('level2')],
+    // data: { num: 2 },
   },
-  // {
-  //   path: 'skip2',
-  //   component: TextCaptchaComponent,
-  //   canActivate: [levelGuard('skip2')],
-  // },
   {
     path: 'level3',
     component: ImageCaptchaComponent,
     canActivate: [levelGuard('level3')],
+    // data: { num: 3 },
   },
   {
     path: 'results',
     component: ResultComponent,
     canActivate: [levelGuard('results')],
+    // data: { num: 4 },
   },
   { path: '**', redirectTo: 'home' },
 ];

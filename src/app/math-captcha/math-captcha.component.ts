@@ -21,8 +21,6 @@ import { StateService } from '../service/state.service';
   styleUrls: ['./math-captcha.component.css'],
 })
 export class MathCaptchaComponent implements AfterViewInit {
-  @ViewChild('container')
-    container: ElementRef | undefined;
   @ViewChild('inputField')
     input: ElementRef | undefined;
   @ViewChild('w1')
@@ -59,15 +57,9 @@ export class MathCaptchaComponent implements AfterViewInit {
     this.words = this.captcha.question.split(' ');
     this.canSkip = this.stateService.getHighestCompleted() >= this.currentLevel;
   }
-  ngAfterViewInit(): void {
-    if (this.container) {
-      this.renderer.addClass(this.container.nativeElement, 'animate-in');
-    }
-    setTimeout(() => {
-      this.renderer.removeClass(this.container?.nativeElement, 'animate-in');
-      this.input?.nativeElement.focus();
-    }, 500);
 
+  ngAfterViewInit(): void {
+    this.input?.nativeElement.focus();
     this.setClasses();
   }
 
@@ -144,12 +136,7 @@ export class MathCaptchaComponent implements AfterViewInit {
 
   goToNext(event: MouseEvent): void {
     event.preventDefault();
-    if (this.container) {
-      this.renderer.addClass(this.container.nativeElement, 'animate-out');
-      setTimeout(() => {
-        this.move('level2');
-      }, 500);
-    }
+    this.move();
   }
 
   skipLevel(event: MouseEvent): void {
@@ -162,7 +149,7 @@ export class MathCaptchaComponent implements AfterViewInit {
     this.router.navigate(['home']);
   }
 
-  move(level: string): void {
-    this.router.navigate([level]);
+  move(): void {
+    this.router.navigate(['level2']);
   }
 }
