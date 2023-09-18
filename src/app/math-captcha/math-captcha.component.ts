@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Renderer2,
@@ -19,6 +20,7 @@ import { StateService } from '../service/state.service';
   selector: 'app-math-captcha',
   templateUrl: './math-captcha.component.html',
   styleUrls: ['./math-captcha.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MathCaptchaComponent implements AfterViewInit {
   @ViewChild('inputField')
@@ -134,22 +136,8 @@ export class MathCaptchaComponent implements AfterViewInit {
     this.input?.nativeElement.focus();
   }
 
-  goToNext(event: MouseEvent): void {
+  move(event: MouseEvent, level: string): void {
     event.preventDefault();
-    this.move();
-  }
-
-  skipLevel(event: MouseEvent): void {
-    event.preventDefault();
-    this.router.navigate(['level2']);
-  }
-
-  goBack(event: MouseEvent): void {
-    event.preventDefault();
-    this.router.navigate(['home']);
-  }
-
-  move(): void {
-    this.router.navigate(['level2']);
+    this.router.navigate([level]);
   }
 }

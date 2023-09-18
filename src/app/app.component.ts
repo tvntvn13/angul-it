@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  template: ' <router-outlet></router-outlet>',
+  template: ' <app-captcha></app-captcha>',
 })
 export class AppComponent {
   constructor() {}

@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   // Renderer2,
@@ -19,6 +20,7 @@ import { StateService } from '../service/state.service';
   selector: 'app-text-captcha',
   templateUrl: './text-captcha.component.html',
   styleUrls: ['./text-captcha.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TextCaptchaComponent implements AfterViewInit {
   @ViewChild('container')
@@ -81,30 +83,9 @@ export class TextCaptchaComponent implements AfterViewInit {
     this.input?.nativeElement.focus();
   }
 
-  goToNext(event: MouseEvent): void {
+  move(event: MouseEvent, level: string) {
     event.preventDefault();
-    // if (this.container) {
-    //   this.renderer.addClass(this.container.nativeElement, 'animate-out');
-    //   setTimeout(() => {
-    //     this.renderer.removeClass(this.container?.nativeElement, 'animate-out');
-    //     this.move();
-    //   }, 500);
-    // }
-    this.router.navigate(['level3']);
-  }
-
-  skipLevel(event: MouseEvent): void {
-    event.preventDefault();
-    this.router.navigate(['level3']);
-  }
-
-  goBack(event: MouseEvent): void {
-    event.preventDefault();
-    this.router.navigate(['level1']);
-  }
-
-  move() {
-    this.router.navigate(['level3']);
+    this.router.navigate([level]);
   }
 
   showSuccess(): void {

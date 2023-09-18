@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+#welcome {
+  text-align: left;
+  font-size: 1.5rem;
+  color: var(--green);
+  text-shadow: 0 0 5px var(--green);
+  line-height: 2.5rem;
+}
+
+.hey {
+  color: var(--yellow);
+  text-shadow: 0 0 5px var(--yellow);
+}
+
+.human {
+  color: var(--yellow);
+  text-shadow: 0 0 5px var(--yellow);
+}
+
+#tests {
+  color: var(--purple2);
+  text-shadow: 0 0 4px var(--purple2);
+}

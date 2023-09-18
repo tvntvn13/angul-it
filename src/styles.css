@@ -38,7 +38,6 @@
   user-select: none;
 }
 
-
 body {
   background-color: var(--bg);
   color: var(--green);
@@ -60,20 +59,18 @@ body {
   position: absolute;
   width: 100vw;
   bottom: 1.5rem;
+  /* animation: 0.6s fade-pop linear; */
 }
-
 
 .forward {
   margin-left: auto;
   margin-right: 1rem;
-  /* opacity: 0.5; */
 }
 
 .backward {
   margin-right: auto;
   margin-left: 1rem;
   top: 1.5rem;
-  /* opacity: 0.5; */
 }
 
 .basic-button {
@@ -113,10 +110,10 @@ body {
 }
 
 .nav-button:hover {
-  transform: scale(1.2,1.2);
+  transform: scale(1.2, 1.2);
   color: var(--purple2);
   filter: drop-shadow(0 0 5px var(--purple2));
-  opacity: 1
+  opacity: 1;
 }
 
 .nav-button fa-icon {
@@ -125,7 +122,7 @@ body {
 
 .input {
   height: 2.2rem;
-  border:none;
+  border: none;
   border-radius: 10px;
   outline: none;
   padding-inline: 5px;
@@ -148,27 +145,20 @@ body {
   text-shadow: 0 0 5px var(--purple2);
 }
 
-.animate-in {
-  animation: slide-in 0.5s ease-in-out;
-  overflow: hidden;
+.fade {
+  animation: 0.5s fade-pop linear;
 }
 
-.animate-out {
-  animation: slide-out 0.5s ease-in-out;
-  overflow: hidden;
-}
+@keyframes fade-pop {
+  0% {
+    opacity: 0;
+  }
 
-.home-in {
-  animation: slide-out 0.5s reverse ease-in-out;
-  overflow: hidden;
-}
+  95% {
+    opacity: 0;
+  }
 
-@keyframes slide-in {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(0%); }
-}
-
-@keyframes slide-out {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-100%); }
+  100% {
+    opacity: 1;
+  }
 }

@@ -1,33 +1,33 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { transition, trigger } from '@angular/animations';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { fade, left, right } from '../animations/animations';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-captcha',
-  templateUrl: './captcha.component.html',
-  styles: [
-    `#captcha-container {
-display: flex;
-justify-content: center;
-align-items: center;
-width: 100vw;
-height: 100vh;
-}`,
+  template: `<div [@animateRoutes]="animationState">
+    <router-outlet (activate)="onActivate()"></router-outlet>
+  </div>`,
+  animations: [
+    trigger('animateRoutes', [
+      transition(':increment', right),
+      transition(':decrement', left),
+      transition('void => *', fade),
+    ]),
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CaptchaComponent {
-  constructor(private router: Router) {}
+  animationState: number;
 
-  onVerify(token: string) {
-    console.log('VERIFIED');
-    console.log(token);
-    this.router.navigate(['results']);
+  constructor(private route: ActivatedRoute) {
+    const initialState = this.route.firstChild?.snapshot.data['idx'];
+    if (!initialState) {
+      this.animationState = this.route.firstChild?.snapshot.data['idx'];
+    } else this.animationState = 0;
   }
-  onExpired(token: string) {
-    console.log('EXPIRED');
-    console.log(token);
-  }
-  onError(token: string) {
-    console.log('ERROR');
-    console.log(token);
+
+  onActivate() {
+    this.animationState = this.route.firstChild?.snapshot.data['idx'];
   }
 }

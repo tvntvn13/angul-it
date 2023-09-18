@@ -1,7 +1,7 @@
 <div class="container" #container>
   <div class="header">
-    <button class="nav-button backward" (click)="goBack($event)"><fa-icon [icon]="backward"></fa-icon></button>
-    <button class="nav-button forward" *ngIf="canSkip" (click)="skipLevel($event)"><fa-icon
+    <button class="nav-button backward" (click)="move($event,'home')"><fa-icon [icon]="backward"></fa-icon></button>
+    <button class="nav-button forward" *ngIf="canSkip" (click)="move($event, 'level2')"><fa-icon
         [icon]="forward"></fa-icon></button>
   </div>
   <p-toast position="top-right" key="tr" [showTransformOptions]="'translateX(100%)'" [showTransitionOptions]="'300ms'"
@@ -18,7 +18,7 @@
       placeholder="Enter answer as number eg. -3" maxlength="3">
     <div class="buttons">
       <button class="basic-button" type="submit" *ngIf="!completed && !failed">submit</button>
-      <button class="next basic-button" (click)="goToNext($event)" *ngIf="completed && !failed">next</button>
+      <button class="next basic-button" (click)="move($event,'level2')" *ngIf="completed && !failed">next</button>
       <button class="next basic-button" (click)="refreshCaptcha($event)" *ngIf="!completed && failed"><fa-icon
           [icon]="refreshIcon"></fa-icon></button>
       <button class="basic-button" (click)="refreshCaptcha($event)" *ngIf="!completed && !failed">

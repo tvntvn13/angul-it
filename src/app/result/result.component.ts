@@ -1,4 +1,9 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { StateService } from '../service/state.service';
 import { faBackward } from '@fortawesome/free-solid-svg-icons';
@@ -7,6 +12,7 @@ import { faBackward } from '@fortawesome/free-solid-svg-icons';
   selector: 'app-result',
   templateUrl: './result.component.html',
   styleUrls: ['./result.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResultComponent {
   @ViewChild('container')
@@ -25,15 +31,11 @@ export class ResultComponent {
   goToHome(event: MouseEvent) {
     event.preventDefault();
     this.stateService.resetState();
+    this.router.navigate(['home']);
   }
 
   goBack(event: MouseEvent): void {
     event.preventDefault();
     this.router.navigate(['level3']);
-  }
-
-  move(): void {
-    this.stateService.resetState();
-    this.router.navigate(['home']);
   }
 }

@@ -60,7 +60,7 @@ export class StateService {
       tries: 0,
       completed: false,
       highestLevel: 0,
-      percentage: '0%',
+      finishes: 0,
     };
     this._state.set('level1', newEntry);
     this.setState(this._state);
@@ -68,7 +68,8 @@ export class StateService {
 
   calculatePercentage(level: string): string {
     const tries = this.getState().get(level)!.tries;
-    const result = 1 / tries * 100;
+    const completions = this.getState().get(level)!.finishes;
+    const result = (completions / tries) * 100;
     return result % 1 != 0 ? result.toFixed(1) + '%' : result.toString() + '%';
   }
 
@@ -79,6 +80,7 @@ export class StateService {
         tries: 1,
         completed: true,
         highestLevel: levelNumber,
+        finishes: 1,
       };
       this._state.set(level, newEntry);
       this.setState(this._state);
@@ -87,6 +89,7 @@ export class StateService {
       update.tries += 1;
       update.completed = true;
       update.highestLevel = levelNumber;
+      update.finishes += 1;
       this._state.set(level, update);
       this.setState(this._state);
     }
@@ -98,6 +101,7 @@ export class StateService {
         tries: 1,
         completed: false,
         highestLevel: 0,
+        finishes: 0,
       };
       this._state.set(level, newEntry);
       this.setState(this._state);

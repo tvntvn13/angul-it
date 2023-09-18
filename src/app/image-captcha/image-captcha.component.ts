@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Renderer2,
@@ -19,6 +20,7 @@ import { StateService } from '../service/state.service';
   selector: 'app-image-captcha',
   templateUrl: './image-captcha.component.html',
   styleUrls: ['./image-captcha.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageCaptchaComponent implements AfterViewInit {
   @ViewChild('gridElement')
@@ -114,23 +116,9 @@ export class ImageCaptchaComponent implements AfterViewInit {
     );
   }
 
-  goToNext(event: MouseEvent): void {
+  move(event: MouseEvent, level: string): void {
     event.preventDefault();
-    this.move();
-  }
-
-  goBack(event: MouseEvent): void {
-    event.preventDefault();
-    this.router.navigate(['level2']);
-  }
-
-  skipLevel(event: MouseEvent): void {
-    event.preventDefault();
-    this.router.navigate(['results']);
-  }
-
-  move(): void {
-    this.router.navigate(['results']);
+    this.router.navigate([level]);
   }
 
   showSuccess(): void {

@@ -7,19 +7,19 @@ import { HomeComponent } from './home/home.component';
 import { ResultComponent } from './result/result.component';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { FormsModule } from '@angular/forms';
-import { SamesiteService } from './service/samesite.service';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MathCaptchaComponent } from './math-captcha/math-captcha.component';
 import { TextCaptchaComponent } from './text-captcha/text-captcha.component';
 import { ImageCaptchaComponent } from './image-captcha/image-captcha.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { CaptchaComponent } from './captcha/captcha.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    CaptchaComponent,
     ResultComponent,
     MathCaptchaComponent,
     TextCaptchaComponent,
@@ -31,16 +31,10 @@ import { MessageService } from 'primeng/api';
     AppRoutingModule,
     RecaptchaModule,
     FormsModule,
-    HttpClientModule,
     FontAwesomeModule,
     ToastModule,
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: SamesiteService,
-      multi: true,
-    },
     {
       provide: MessageService,
     },

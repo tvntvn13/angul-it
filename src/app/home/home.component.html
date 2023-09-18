@@ -1,0 +1,25 @@
+<div class="container" #homeContainer>
+  <div class="header">
+    <button
+      class="nav-button forward"
+      *ngIf="canSkip"
+      (click)="move($event, 'level1')"
+    >
+      <fa-icon [icon]="forward"></fa-icon>
+    </button>
+  </div>
+  <div id="welcome">
+    <p>
+      <span class="hey">Hey,</span> and welcome.
+      <br />
+      To <span class="human">verify</span> you are a
+      <span class="human">human,</span><br />start the<span id="tests">
+        tests.</span
+      >
+    </p>
+  </div>
+
+  <button class="basic-button" (click)="goToCaptchas()">
+    {{ canSkip ? "RESTART" : "START" }}
+  </button>
+</div>
