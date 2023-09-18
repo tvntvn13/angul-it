@@ -12,7 +12,7 @@ and it's part of **Gritlab's** Java projects track.
 
 ##### How to run:
 
-- on dev server: _(server will start at https://127.0.0.1:4200)_
+- on dev server: _(server will start at https://localhost:4200)_
 
 ```bash
 npm install
@@ -26,14 +26,19 @@ npm install
 ng build --aot
 ```
 
-- then go to dist/ folder and: _(server will start at https://127.0.0.1:4200)_
+- then go to dist/angul-it folder and: _(server will start at
+  http://localhost:8000)_
 
 ```bash
 python3 -m http-server
 ```
 
 ##### Online:
+
 - The app is also hosted [**here**](https://captcha-96d84.web.app/home)
+
+###### _(version might differ tho)_
+
 ---
 
 ### Captchas

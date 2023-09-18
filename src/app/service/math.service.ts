@@ -45,19 +45,21 @@ class Helper {
     let randomString = '';
     for (const char of wordString) {
       if (char == 'o') {
-        this.randomChance() ? randomString += '0' : randomString += char;
+        this.randomChance() ? (randomString += '0') : (randomString += char);
         continue;
       }
       if (char == 'i') {
-        this.randomChance() ? randomString += '1' : randomString += char;
+        this.randomChance() ? (randomString += '1') : (randomString += char);
         continue;
       }
       if (char == 'e') {
-        this.randomChance() ? randomString += '3' : randomString += char;
+        this.randomChance() ? (randomString += '3') : (randomString += char);
         continue;
-      } else {this.randomChance()
-        ? randomString += char.toUpperCase()
-        : randomString += char;}
+      } else {
+        this.randomChance()
+          ? (randomString += char.toUpperCase())
+          : (randomString += char);
+      }
     }
     return randomString;
   }
@@ -73,10 +75,11 @@ class Helper {
 
     const answer = plus ? num1 + num2 - num3 : num1 - num2 + num3;
     const question = `${this.numbers.get(num1)} ${ops1} ${
-      this.numbers.get(num2)
+      this.numbers.get(
+        num2,
+      )
     } ${ops2} ${this.numbers.get(num3)}`;
 
-    console.log('\n\n', answer);
     return { question: this.randomizeString(question), answer: answer };
   }
 }
