@@ -8,8 +8,11 @@ export const left = [
     query(
       ':enter',
       [
-        style({ transform: 'translateX(-100%)' }),
-        animate('.7s ease-out', style({ transform: 'translateX(0%)' })),
+        style({ transform: 'translateX(-100%)', opacity: '0' }),
+        animate(
+          '.7s ease-out',
+          style({ transform: 'translateX(0%)', opacity: '1' }),
+        ),
       ],
       {
         optional: true,
@@ -18,8 +21,11 @@ export const left = [
     query(
       ':leave',
       [
-        style({ transform: 'translateX(0%)' }),
-        animate('.7s ease-in', style({ transform: 'translateX(100%)' })),
+        style({ transform: 'translateX(0%)', opacity: '1' }),
+        animate(
+          '.7s ease-in',
+          style({ transform: 'translateX(100%)', opacity: '0' }),
+        ),
       ],
       {
         optional: true,
@@ -36,8 +42,11 @@ export const right = [
     query(
       ':enter',
       [
-        style({ transform: 'translateX(100%)' }),
-        animate('.7s ease-out', style({ transform: 'translateX(0%)' })),
+        style({ transform: 'translateX(100%)', opacity: '0' }),
+        animate(
+          '.7s ease-out',
+          style({ transform: 'translateX(0%)', opacity: '1' }),
+        ),
       ],
       {
         optional: true,
@@ -46,8 +55,11 @@ export const right = [
     query(
       ':leave',
       [
-        style({ transform: 'translateX(0%)' }),
-        animate('.7s ease-in', style({ transform: 'translateX(-100%)' })),
+        style({ transform: 'translateX(0%)', opacity: '1' }),
+        animate(
+          '.7s ease-in',
+          style({ transform: 'translateX(-100%)', opacity: '0' }),
+        ),
       ],
       {
         optional: true,

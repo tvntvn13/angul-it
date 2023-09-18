@@ -64,6 +64,7 @@ export class ImageCaptchaComponent implements AfterViewInit {
       const grid = this.gridElement.nativeElement;
       this.renderer.setStyle(grid, 'backgroundImage', this.bgUrl);
     }
+    this.refreshCaptcha();
   }
 
   cellClicked(
