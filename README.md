@@ -8,6 +8,7 @@ and it's part of **Gritlab's** Java projects track.
 ##### Prerequisites
 
 - Angular CLI
+- node
 - npm or yarn
 
 ##### How to run:
