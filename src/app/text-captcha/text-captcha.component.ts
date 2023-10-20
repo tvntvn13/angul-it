@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -22,7 +21,7 @@ import { StateService } from '../service/state.service';
   styleUrls: ['./text-captcha.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TextCaptchaComponent implements AfterViewInit {
+export class TextCaptchaComponent {
   @ViewChild('container')
     container: ElementRef | undefined;
   @ViewChild('inputField')
@@ -51,13 +50,13 @@ export class TextCaptchaComponent implements AfterViewInit {
     this.canSkip = this.stateService.getHighestCompleted() >= this.currentLevel;
   }
 
-  ngAfterViewInit(): void {
-    // if (this.container) {
-    //   this.renderer.addClass(this.container.nativeElement, 'animate-in');
-    // }
+  // ngAfterViewInit(): void {
+  // if (this.container) {
+  //   this.renderer.addClass(this.container.nativeElement, 'animate-in');
+  // }
 
-    this.input?.nativeElement.focus();
-  }
+  // this.input?.nativeElement.focus();
+  // }
 
   onsubmit(event: SubmitEvent): void {
     event.preventDefault();

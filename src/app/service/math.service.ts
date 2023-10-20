@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class MathService {
   private helper: Helper;
   private captcha: { question: string; answer: number };
+
   constructor() {
     this.helper = new Helper();
     this.captcha = this.helper.generateCaptcha();

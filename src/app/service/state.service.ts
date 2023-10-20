@@ -17,16 +17,15 @@ export class StateService {
     if (localStorageData) {
       try {
         const data = JSON.parse(atob(localStorageData));
-        // const data = JSON.parse(localStorageData);
         return new Map(Object.entries(data));
       } catch (e) {
         console.log('error parsing JSON: ', e);
         this._state = new Map<string, LevelResult>();
-        return new Map<string, LevelResult>();
+        return this.getState();
       }
     }
     this._state = new Map<string, LevelResult>();
-    return new Map<string, LevelResult>();
+    return this.getState();
   }
 
   getState(): Map<string, LevelResult> {
@@ -36,7 +35,6 @@ export class StateService {
   setState(data: Map<string, LevelResult>): void {
     this._state = data;
     const encodedData = btoa(JSON.stringify(Object.fromEntries(data)));
-    // const encodedData = JSON.stringify(Object.fromEntries(data));
     localStorage.setItem(this.LOCAL_STORAGE_KEY, encodedData);
   }
 

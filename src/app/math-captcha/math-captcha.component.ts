@@ -61,7 +61,6 @@ export class MathCaptchaComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.input?.nativeElement.focus();
     this.setClasses();
   }
 
