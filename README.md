@@ -5,6 +5,8 @@
 This project is a multiple-stage capctha app. Project is made with Angular 16,
 and it's part of **Gritlab's** Java projects track.
 
+- The app is hosted [**here**](https://captcha-96d84.web.app/home)
+
 ##### Prerequisites
 
 - Angular CLI
@@ -33,14 +35,6 @@ ng build --aot
 ```bash
 python3 -m http-server
 ```
-
-##### Online:
-
-- The app is also hosted [**here**](https://captcha-96d84.web.app/home)
-
-###### _(version might differ tho)_
-
----
 
 ### Captchas
 
