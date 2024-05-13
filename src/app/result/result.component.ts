@@ -23,6 +23,8 @@ export class ResultComponent {
   backward = faBackward;
 
   constructor(private router: Router, private stateService: StateService) {
+    this.router = router;
+    this.stateService = stateService;
     this.level1Result = this.stateService.calculatePercentage('level1');
     this.level2Result = this.stateService.calculatePercentage('level2');
     this.level3Result = this.stateService.calculatePercentage('level3');

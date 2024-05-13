@@ -55,6 +55,11 @@ export class MathCaptchaComponent implements AfterViewInit {
     private mathService: MathService,
     private stateService: StateService,
   ) {
+    this.router = router;
+    this.messageService = messageService;
+    this.renderer = renderer;
+    this.mathService = mathService;
+    this.stateService = stateService;
     this.captcha = this.mathService.generateCaptcha();
     this.words = this.captcha.question.split(' ');
     this.canSkip = this.stateService.getHighestCompleted() >= this.currentLevel;

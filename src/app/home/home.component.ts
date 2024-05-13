@@ -1,8 +1,8 @@
-import { Router } from '@angular/router';
-import { StateService } from '../service/state.service';
-import { LevelResult } from '../interface/level-result';
-import { faForward } from '@fortawesome/free-solid-svg-icons';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { faForward } from '@fortawesome/free-solid-svg-icons';
+import { LevelResult } from '../interface/level-result';
+import { StateService } from '../service/state.service';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +16,8 @@ export class HomeComponent {
   canSkip = false;
 
   constructor(private router: Router, private stateService: StateService) {
+    this.stateService = stateService;
+    this.router = router;
     this.state = this.stateService.getState();
     this.canSkip = this.stateService.getHighestCompleted() >= 1;
   }

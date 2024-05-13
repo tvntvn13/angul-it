@@ -46,17 +46,14 @@ export class TextCaptchaComponent {
     private textService: TextService,
     private stateService: StateService,
   ) {
+    this.router = router;
+    this.messageService = messageService;
+    this.textService = textService;
+    this.stateService = stateService;
     this.captcha = this.textService.generateCaptcha();
     this.canSkip = this.stateService.getHighestCompleted() >= this.currentLevel;
   }
 
-  // ngAfterViewInit(): void {
-  // if (this.container) {
-  //   this.renderer.addClass(this.container.nativeElement, 'animate-in');
-  // }
-
-  // this.input?.nativeElement.focus();
-  // }
 
   onsubmit(event: SubmitEvent): void {
     event.preventDefault();

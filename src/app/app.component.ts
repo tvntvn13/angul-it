@@ -5,6 +5,5 @@ import { Component } from '@angular/core';
   template: ' <app-captcha></app-captcha>',
 })
 export class AppComponent {
-  constructor() {}
   title = 'angul-it';
 }

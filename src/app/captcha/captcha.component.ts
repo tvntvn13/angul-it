@@ -21,6 +21,7 @@ export class CaptchaComponent {
   animationState: number;
 
   constructor(private route: ActivatedRoute) {
+    this.route = route;
     const initialState = this.route.firstChild?.snapshot.data['idx'];
     if (!initialState) {
       this.animationState = this.route.firstChild?.snapshot.data['idx'];

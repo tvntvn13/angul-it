@@ -25,7 +25,7 @@ export function levelGuard(level: string): CanActivateFn {
       router.navigate([levels.get(highestCompleted)]);
       return false;
     } else {
-      const requestedLevel = +level.at(-1)!;
+      const requestedLevel = parseInt(level.at(-1) ?? '1');
       for (const [level, levelResult] of state) {
         if (level && levelResult.highestLevel > highestCompleted) {
           highestCompleted = levelResult.highestLevel;

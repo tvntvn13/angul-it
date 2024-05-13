@@ -19,7 +19,7 @@
       <div *ngFor="let row of [0,1,2,3,4]" class="grid-item">
         <div *ngFor="let col of [0,1,2,3,4]" class="grid-item">
           <button #gridButton [id]="'button-'+(row*5+col)" (click)="cellClicked(row, col, gridButton)"
-            class="grid-btn"></button>
+            class="grid-btn">""</button>
         </div>
       </div>
     </div>

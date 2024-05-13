@@ -10,28 +10,38 @@ export class ImageService {
 
   private keys: boolean[][] = [];
 
-  private length: number = 0;
+  private length = 0;
 
-  private captcha: {imageUrl: string, key: boolean[][] };
+  private captcha: { imageUrl: string, key: boolean[][] };
 
   private key: boolean[][] = [];
 
-  getCaptcha(): {imageUrl: string, key: boolean[][]} {
+  getCaptcha(): { imageUrl: string, key: boolean[][] } {
     return this.captcha;
   }
 
   constructor() {
 
-    this.keys = [[false,true,true,true,true,false,true,true,true,true,false,true,true,true,true,false,false,true,true,true,false,false,false,false,false], 
-      [false,true,true,false,false,true,true,true,true,false,true,true,true,true,false,true,true,true,false,false,false,false,false,false,false],
-      [false,false,false,false,false,false,false,true,true,true,false,false,true,true,true,false,false,true,true,true,false,false,false,true,false],
-      [true,true,true,true,false,true,true,true,true,false,true,true,true,true,false,false,true,true,false,false,false,true,true,true,false],
-      [false,false,false,false,false,false,false,false,true,true,false,false,true,true,true,false,false,true,true,true,false,false,false,true,true],
-      [false,false,false,true,true,false,true,true,true,true,true,true,true,true,true,true,true,true,true,true,false,true,true,true,true],
-      [false,false,false,false,false,false,false,true,true,true,false,false,true,true,true,false,false,true,true,true,false,false,true,true,true],
-      [false,false,false,true,true,false,false,true,true,true,false,false,true,true,true,false,false,true,true,true,false,false,false,true,true],
-      [false,false,true,true,true,false,true,true,true,true,false,true,true,true,true,true,true,true,true,true,true,true,true,true,true],
-      [false,false,false,false,false,false,true,true,true,true,false,true,true,true,true,false,false,true,true,true,false,false,false,false,false],
+    this.keys = [[false, true, true, true, true, false, true, true, true, true, false,
+      true, true, true, true, false, false, true, true, true, false, false, false, false, false],
+    [false, true, true, false, false, true, true, true, true, false, true, true, true, true,
+      false, true, true, true, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, true, true, true, false, false,
+      true, true, true, false, false, true, true, true, false, false, false, true, false],
+    [true, true, true, true, false, true, true, true, true, false, true, true, true,
+      true, false, false, true, true, false, false, false, true, true, true, false],
+    [false, false, false, false, false, false, false, false, true, true, false, false,
+      true, true, true, false, false, true, true, true, false, false, false, true, true],
+    [false, false, false, true, true, false, true, true, true, true, true, true, true, true,
+      true, true, true, true, true, true, false, true, true, true, true],
+    [false, false, false, false, false, false, false, true, true, true, false,
+      false, true, true, true, false, false, true, true, true, false, false, true, true, true],
+    [false, false, false, true, true, false, false, true, true, true, false, false, true, true,
+      true, false, false, true, true, true, false, false, false, true, true],
+    [false, false, true, true, true, false, true, true, true, true, false, true,
+      true, true, true, true, true, true, true, true, true, true, true, true, true],
+    [false, false, false, false, false, false, true, true, true, true, false, true,
+      true, true, true, false, false, true, true, true, false, false, false, false, false],
     ];
 
     this.imageUrls = [
@@ -52,10 +62,10 @@ export class ImageService {
     this.captcha = this.generateCaptcha(this.currentImageUrl);
   }
 
-  generateCaptcha(currentImgUrl: string | null ) : { imageUrl: string, key: boolean[][] } {
-    const index: number = Math.round(Math.random()*this.length);
-    
-    if(currentImgUrl === null || this.currentImageUrl != this.imageUrls[index]){
+  generateCaptcha(currentImgUrl: string | null): { imageUrl: string, key: boolean[][] } {
+    const index: number = Math.round(Math.random() * this.length);
+
+    if (currentImgUrl === null || this.currentImageUrl != this.imageUrls[index]) {
       this.currentImageUrl = this.imageUrls[index];
       this.key = this.convertKeyTo2d(this.keys[index]);
       return { imageUrl: this.currentImageUrl, key: this.key };
@@ -63,12 +73,12 @@ export class ImageService {
       return this.generateCaptcha(this.currentImageUrl);
     }
   }
-  
+
   convertKeyTo2d(key: boolean[]): boolean[][] {
     const key2D: boolean[][] = [];
-    for(let i=0; i<5; i++){
+    for (let i = 0; i < 5; i++) {
       const row: boolean[] = [];
-      for(let j=0; j<5; j++){
+      for (let j = 0; j < 5; j++) {
         const index = i * 5 + j;
         row.push(key[index]);
       }
@@ -79,7 +89,7 @@ export class ImageService {
 
   initEmptyArray(rowLength: number): boolean[][] {
     const emptyKey2D: boolean[][] = [];
-    for(let i=0; i<rowLength; i++){
+    for (let i = 0; i < rowLength; i++) {
       const row = new Array(rowLength).fill(false);
       emptyKey2D.push(row);
     }

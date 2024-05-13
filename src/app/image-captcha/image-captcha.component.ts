@@ -7,13 +7,13 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { ImageService } from '../service/image.service';
 import {
   faArrowRotateRight,
   faBackward,
   faForward,
 } from '@fortawesome/free-solid-svg-icons';
 import { MessageService } from 'primeng/api';
+import { ImageService } from '../service/image.service';
 import { StateService } from '../service/state.service';
 
 @Component({
@@ -35,7 +35,7 @@ export class ImageCaptchaComponent implements AfterViewInit {
   completed = false;
   failed = false;
   currentImage: string;
-  gridLength: number = 5;
+  gridLength = 5;
   refreshIcon = faArrowRotateRight;
   bgUrl: string;
   warningUrl = 'url("assets/images/warning.png")';
@@ -51,6 +51,11 @@ export class ImageCaptchaComponent implements AfterViewInit {
     private renderer: Renderer2,
     private stateService: StateService,
   ) {
+    this.router = router;
+    this.imageService = imageService;
+    this.messageService = messageService;
+    this.renderer = renderer;
+    this.stateService = stateService;
     this.captcha = this.imageService.getCaptcha();
     this.correctAnswerArray = this.captcha.key;
     this.currentImage = this.captcha.imageUrl;

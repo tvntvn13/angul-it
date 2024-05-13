@@ -3,65 +3,28 @@
     <button class="nav-button backward" (click)="move($event, 'level1')">
       <fa-icon [icon]="backward"></fa-icon>
     </button>
-    <button
-      class="nav-button forward"
-      *ngIf="canSkip"
-      (click)="move($event, 'level3')"
-    >
+    <button class="nav-button forward" *ngIf="canSkip" (click)="move($event, 'level3')">
       <fa-icon [icon]="forward"></fa-icon>
     </button>
   </div>
-  <p-toast
-    position="top-right"
-    key="tr"
-    [showTransformOptions]="'translateX(100%)'"
-    [showTransitionOptions]="'300ms'"
-    [life]="1500"
-    [hideTransformOptions]="'translateY(-100%)'"
-    [hideTransitionOptions]="'500ms'"
-    [breakpoints]="{ '450px': { width: '100%', right: '0', left: '0' } }"
-  ></p-toast>
-  <img [src]="captcha.imageData" id="captcha" />
+  <p-toast position="top-right" key="tr" [showTransformOptions]="'translateX(100%)'" [showTransitionOptions]="'300ms'"
+    [life]="1500" [hideTransformOptions]="'translateY(-100%)'" [hideTransitionOptions]="'500ms'"
+    [breakpoints]="{ '450px': { width: '100%', right: '0', left: '0' } }"></p-toast>
+  <img [src]="captcha.imageData" id="captcha" alt="captcha image" />
   <form id="form" (ngSubmit)="onsubmit($event)">
-    <input
-      #inputField
-      type="text"
-      class="input"
-      [(ngModel)]="userValue"
-      name="captchaInput"
-      required
-      id="input"
-      placeholder="Enter the text (case-insensitive)"
-      maxlength="6"
-    />
+    <input #inputField type="text" class="input" [(ngModel)]="userValue" name="captchaInput" required id="input"
+      placeholder="Enter the text (case-insensitive)" maxlength="6" />
     <div class="buttons">
-      <button
-        class="basic-button"
-        id="submit"
-        type="submit"
-        *ngIf="!completed && !failed"
-      >
+      <button class="basic-button" id="submit" type="submit" *ngIf="!completed && !failed">
         submit
       </button>
-      <button
-        class="next basic-button"
-        (click)="move($event, 'level3')"
-        *ngIf="completed && !failed"
-      >
+      <button class="next basic-button" (click)="move($event, 'level3')" *ngIf="completed && !failed">
         next
       </button>
-      <button
-        class="next basic-button"
-        (click)="refreshCaptcha($event)"
-        *ngIf="failed && !completed"
-      >
+      <button class="next basic-button" (click)="refreshCaptcha($event)" *ngIf="failed && !completed">
         <fa-icon [icon]="refreshIcon"></fa-icon>
       </button>
-      <button
-        class="basic-button"
-        (click)="refreshCaptcha($event)"
-        *ngIf="!completed && !failed"
-      >
+      <button class="basic-button" (click)="refreshCaptcha($event)" *ngIf="!completed && !failed">
         <fa-icon [icon]="refreshIcon"></fa-icon>
       </button>
     </div>
