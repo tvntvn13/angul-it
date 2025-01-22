@@ -25,16 +25,10 @@
 }
 
 #results {
-  /* margin-top: 2rem; */
-  /* color: var(--orange); */
-  /* text-shadow: 0 0 3px var(--orange); */
-  /* font-size: 1.2rem; */
-  /* padding-top: 3rem; */
   margin-top: 3rem;
   height: 1px;
   width: 45%;
   border-bottom: 2px solid var(--lpurple);
-  /* box-shadow: 0 0  1px 1px #a34cfe; */
 }
 
 p {
