@@ -42,27 +42,19 @@ class Helper {
     return Math.random() > 0.5;
   }
 
+  private CHAR_REPLACEMENTS: { [key: string]: string } = {
+    'o': '0',
+    'i': '1',
+    'e': '3'
+  };
   randomizeString(wordString: string): string {
-    let randomString = '';
-    for (const char of wordString) {
-      if (char == 'o') {
-        this.randomChance() ? (randomString += '0') : (randomString += char);
-        continue;
+    return wordString.split('').map(char => {
+      const replacement = this.CHAR_REPLACEMENTS[char];
+      if (replacement && this.randomChance()) {
+        return replacement;
       }
-      if (char == 'i') {
-        this.randomChance() ? (randomString += '1') : (randomString += char);
-        continue;
-      }
-      if (char == 'e') {
-        this.randomChance() ? (randomString += '3') : (randomString += char);
-        continue;
-      } else {
-        this.randomChance()
-          ? (randomString += char.toUpperCase())
-          : (randomString += char);
-      }
-    }
-    return randomString;
+      return this.randomChance() ? char.toUpperCase() : char;
+    }).join('');
   }
 
   generateCaptcha(): { question: string; answer: number } {
@@ -75,11 +67,10 @@ class Helper {
     const ops2 = plus ? this.operators[0] : this.operators[1];
 
     const answer = plus ? num1 + num2 - num3 : num1 - num2 + num3;
-    const question = `${this.numbers.get(num1)} ${ops1} ${
-      this.numbers.get(
-        num2,
-      )
-    } ${ops2} ${this.numbers.get(num3)}`;
+    const question = `${this.numbers.get(num1)} ${ops1} ${this.numbers.get(
+      num2,
+    )
+      } ${ops2} ${this.numbers.get(num3)}`;
 
     return { question: this.randomizeString(question), answer: answer };
   }

@@ -130,9 +130,6 @@ class Helper {
   prepareCanvas() {
     if (this.context == null) return;
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    // this.canvas.style.border = "1px solid black";
-    // this.canvas.style.width = "150px";
-    // this.canvas.style.backgroundColor = this.colorGenerator();
 
     this.context.font = 'italic 75px Arial';
     this.context.fillStyle = this.colorGenerator();
